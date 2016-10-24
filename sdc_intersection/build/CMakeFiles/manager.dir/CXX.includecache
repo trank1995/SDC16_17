@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Accounts/trank/Desktop/sdc_intersection/manager.cc
+manager.hh
+/Accounts/trank/Desktop/sdc_intersection/manager.hh
+
+/Accounts/trank/Desktop/sdc_intersection/manager.hh
+iostream
+-
+
