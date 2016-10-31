@@ -43,10 +43,10 @@ RM = /usr/local/Cellar/cmake/3.6.2/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Accounts/trank/Desktop/sdc_intersection
+CMAKE_SOURCE_DIR = /Accounts/trank/Desktop/SDC16_17/sdc_intersection
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Accounts/trank/Desktop/sdc_intersection/build
+CMAKE_BINARY_DIR = /Accounts/trank/Desktop/SDC16_17/sdc_intersection/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/sdcCar.dir/depend.make
@@ -59,16 +59,16 @@ include CMakeFiles/sdcCar.dir/flags.make
 
 CMakeFiles/sdcCar.dir/sdcCar.cc.o: CMakeFiles/sdcCar.dir/flags.make
 CMakeFiles/sdcCar.dir/sdcCar.cc.o: ../sdcCar.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Accounts/trank/Desktop/sdc_intersection/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/sdcCar.dir/sdcCar.cc.o"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/sdcCar.dir/sdcCar.cc.o -c /Accounts/trank/Desktop/sdc_intersection/sdcCar.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/sdcCar.dir/sdcCar.cc.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/sdcCar.dir/sdcCar.cc.o -c /Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcCar.cc
 
 CMakeFiles/sdcCar.dir/sdcCar.cc.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sdcCar.dir/sdcCar.cc.i"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Accounts/trank/Desktop/sdc_intersection/sdcCar.cc > CMakeFiles/sdcCar.dir/sdcCar.cc.i
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcCar.cc > CMakeFiles/sdcCar.dir/sdcCar.cc.i
 
 CMakeFiles/sdcCar.dir/sdcCar.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sdcCar.dir/sdcCar.cc.s"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Accounts/trank/Desktop/sdc_intersection/sdcCar.cc -o CMakeFiles/sdcCar.dir/sdcCar.cc.s
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcCar.cc -o CMakeFiles/sdcCar.dir/sdcCar.cc.s
 
 CMakeFiles/sdcCar.dir/sdcCar.cc.o.requires:
 
@@ -90,8 +90,56 @@ sdcCar_EXTERNAL_OBJECTS =
 
 libsdcCar.dylib: CMakeFiles/sdcCar.dir/sdcCar.cc.o
 libsdcCar.dylib: CMakeFiles/sdcCar.dir/build.make
-libsdcCar.dylib: libsdcIntersection.dylib
+libsdcCar.dylib: libsdcManager.dylib
 libsdcCar.dylib: libmanager.dylib
+libsdcCar.dylib: libsdcWaypoint.dylib
+libsdcCar.dylib: libsdcSensorData.dylib
+libsdcCar.dylib: libsdcIntersection.dylib
+libsdcCar.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo.dylib
+libsdcCar.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_client.dylib
+libsdcCar.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_gui_building.dylib
+libsdcCar.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_gui_viewers.dylib
+libsdcCar.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_gui_model.dylib
+libsdcCar.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_gui.dylib
+libsdcCar.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_sensors.dylib
+libsdcCar.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_rendering.dylib
+libsdcCar.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_selection_buffer.dylib
+libsdcCar.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_physics_bullet.dylib
+libsdcCar.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_physics_simbody.dylib
+libsdcCar.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_physics_ode.dylib
+libsdcCar.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_physics.dylib
+libsdcCar.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_ode.dylib
+libsdcCar.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_transport.dylib
+libsdcCar.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_msgs.dylib
+libsdcCar.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_util.dylib
+libsdcCar.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_common.dylib
+libsdcCar.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_skyx.dylib
+libsdcCar.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_gimpact.dylib
+libsdcCar.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_opcode.dylib
+libsdcCar.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_opende_ou.dylib
+libsdcCar.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_math.dylib
+libsdcCar.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_ccd.dylib
+libsdcCar.dylib: /usr/local/lib/libboost_thread-mt.dylib
+libsdcCar.dylib: /usr/local/lib/libboost_signals-mt.dylib
+libsdcCar.dylib: /usr/local/lib/libboost_system-mt.dylib
+libsdcCar.dylib: /usr/local/lib/libboost_filesystem-mt.dylib
+libsdcCar.dylib: /usr/local/lib/libboost_program_options-mt.dylib
+libsdcCar.dylib: /usr/local/lib/libboost_regex-mt.dylib
+libsdcCar.dylib: /usr/local/lib/libboost_iostreams-mt.dylib
+libsdcCar.dylib: /usr/local/lib/libboost_date_time-mt.dylib
+libsdcCar.dylib: /usr/local/lib/libboost_chrono-mt.dylib
+libsdcCar.dylib: /usr/local/lib/libboost_atomic-mt.dylib
+libsdcCar.dylib: /usr/local/lib/libprotobuf.dylib
+libsdcCar.dylib: /usr/local/Cellar/sdformat3/3.7.0/lib/libsdformat.dylib
+libsdcCar.dylib: /usr/local/Cellar/ignition-math2/2.5.0/lib/libignition-math2.dylib
+libsdcCar.dylib: /usr/local/Cellar/ogre/1.7.4/lib/libOgreMain.dylib
+libsdcCar.dylib: /usr/local/Cellar/ogre/1.7.4/lib/libOgreTerrain.dylib
+libsdcCar.dylib: /usr/local/Cellar/ogre/1.7.4/lib/libOgrePaging.dylib
+libsdcCar.dylib: /usr/local/Cellar/ignition-math2/2.5.0/lib/libignition-math2.dylib
+libsdcCar.dylib: libsdcVisibleObject.dylib
+libsdcCar.dylib: libsdcLidarRay.dylib
+libsdcCar.dylib: libsdcLidarSensorInfo.dylib
+libsdcCar.dylib: libsdcAngle.dylib
 libsdcCar.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo.dylib
 libsdcCar.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_client.dylib
 libsdcCar.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_gui_building.dylib
@@ -137,7 +185,7 @@ libsdcCar.dylib: /usr/local/Cellar/ogre/1.7.4/lib/libOgreMain.dylib
 libsdcCar.dylib: /usr/local/Cellar/ogre/1.7.4/lib/libOgreTerrain.dylib
 libsdcCar.dylib: /usr/local/Cellar/ogre/1.7.4/lib/libOgrePaging.dylib
 libsdcCar.dylib: CMakeFiles/sdcCar.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Accounts/trank/Desktop/sdc_intersection/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX shared library libsdcCar.dylib"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX shared library libsdcCar.dylib"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/sdcCar.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -154,6 +202,6 @@ CMakeFiles/sdcCar.dir/clean:
 .PHONY : CMakeFiles/sdcCar.dir/clean
 
 CMakeFiles/sdcCar.dir/depend:
-	cd /Accounts/trank/Desktop/sdc_intersection/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Accounts/trank/Desktop/sdc_intersection /Accounts/trank/Desktop/sdc_intersection /Accounts/trank/Desktop/sdc_intersection/build /Accounts/trank/Desktop/sdc_intersection/build /Accounts/trank/Desktop/sdc_intersection/build/CMakeFiles/sdcCar.dir/DependInfo.cmake --color=$(COLOR)
+	cd /Accounts/trank/Desktop/SDC16_17/sdc_intersection/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Accounts/trank/Desktop/SDC16_17/sdc_intersection /Accounts/trank/Desktop/SDC16_17/sdc_intersection /Accounts/trank/Desktop/SDC16_17/sdc_intersection/build /Accounts/trank/Desktop/SDC16_17/sdc_intersection/build /Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles/sdcCar.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/sdcCar.dir/depend
 

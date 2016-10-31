@@ -1,4 +1,4 @@
-# Install script for directory: /Accounts/trank/Desktop/sdc_intersection
+# Install script for directory: /Accounts/trank/Desktop/SDC16_17/sdc_intersection
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -35,5 +35,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Accounts/trank/Desktop/sdc_intersection/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

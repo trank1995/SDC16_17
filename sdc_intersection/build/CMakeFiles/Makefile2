@@ -54,20 +54,67 @@ RM = /usr/local/Cellar/cmake/3.6.2/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Accounts/trank/Desktop/sdc_intersection
+CMAKE_SOURCE_DIR = /Accounts/trank/Desktop/SDC16_17/sdc_intersection
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Accounts/trank/Desktop/sdc_intersection/build
+CMAKE_BINARY_DIR = /Accounts/trank/Desktop/SDC16_17/sdc_intersection/build
+
+#=============================================================================
+# Target rules for target CMakeFiles/sdcSensorData.dir
+
+# All Build rule for target.
+CMakeFiles/sdcSensorData.dir/all: CMakeFiles/sdcVisibleObject.dir/all
+CMakeFiles/sdcSensorData.dir/all: CMakeFiles/sdcLidarRay.dir/all
+CMakeFiles/sdcSensorData.dir/all: CMakeFiles/sdcLidarSensorInfo.dir/all
+CMakeFiles/sdcSensorData.dir/all: CMakeFiles/sdcAngle.dir/all
+	$(MAKE) -f CMakeFiles/sdcSensorData.dir/build.make CMakeFiles/sdcSensorData.dir/depend
+	$(MAKE) -f CMakeFiles/sdcSensorData.dir/build.make CMakeFiles/sdcSensorData.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles --progress-num=15,16 "Built target sdcSensorData"
+.PHONY : CMakeFiles/sdcSensorData.dir/all
+
+# Include target in all.
+all: CMakeFiles/sdcSensorData.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/sdcSensorData.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles 10
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/sdcSensorData.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles 0
+.PHONY : CMakeFiles/sdcSensorData.dir/rule
+
+# Convenience name for target.
+sdcSensorData: CMakeFiles/sdcSensorData.dir/rule
+
+.PHONY : sdcSensorData
+
+# clean rule for target.
+CMakeFiles/sdcSensorData.dir/clean:
+	$(MAKE) -f CMakeFiles/sdcSensorData.dir/build.make CMakeFiles/sdcSensorData.dir/clean
+.PHONY : CMakeFiles/sdcSensorData.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/sdcSensorData.dir/clean
+
+.PHONY : clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/sdcCar.dir
 
 # All Build rule for target.
+CMakeFiles/sdcCar.dir/all: CMakeFiles/sdcSensorData.dir/all
+CMakeFiles/sdcCar.dir/all: CMakeFiles/sdcWaypoint.dir/all
 CMakeFiles/sdcCar.dir/all: CMakeFiles/sdcIntersection.dir/all
+CMakeFiles/sdcCar.dir/all: CMakeFiles/sdcVisibleObject.dir/all
+CMakeFiles/sdcCar.dir/all: CMakeFiles/sdcLidarRay.dir/all
+CMakeFiles/sdcCar.dir/all: CMakeFiles/sdcLidarSensorInfo.dir/all
+CMakeFiles/sdcCar.dir/all: CMakeFiles/sdcAngle.dir/all
+CMakeFiles/sdcCar.dir/all: CMakeFiles/sdcManager.dir/all
 CMakeFiles/sdcCar.dir/all: CMakeFiles/manager.dir/all
 	$(MAKE) -f CMakeFiles/sdcCar.dir/build.make CMakeFiles/sdcCar.dir/depend
 	$(MAKE) -f CMakeFiles/sdcCar.dir/build.make CMakeFiles/sdcCar.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Accounts/trank/Desktop/sdc_intersection/build/CMakeFiles --progress-num=3,4 "Built target sdcCar"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles --progress-num=5,6 "Built target sdcCar"
 .PHONY : CMakeFiles/sdcCar.dir/all
 
 # Include target in all.
@@ -77,9 +124,9 @@ all: CMakeFiles/sdcCar.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/sdcCar.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Accounts/trank/Desktop/sdc_intersection/build/CMakeFiles 6
+	$(CMAKE_COMMAND) -E cmake_progress_start /Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles 20
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/sdcCar.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Accounts/trank/Desktop/sdc_intersection/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles 0
 .PHONY : CMakeFiles/sdcCar.dir/rule
 
 # Convenience name for target.
@@ -98,13 +145,50 @@ clean: CMakeFiles/sdcCar.dir/clean
 .PHONY : clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/sdcWaypoint.dir
+
+# All Build rule for target.
+CMakeFiles/sdcWaypoint.dir/all:
+	$(MAKE) -f CMakeFiles/sdcWaypoint.dir/build.make CMakeFiles/sdcWaypoint.dir/depend
+	$(MAKE) -f CMakeFiles/sdcWaypoint.dir/build.make CMakeFiles/sdcWaypoint.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles --progress-num=19,20 "Built target sdcWaypoint"
+.PHONY : CMakeFiles/sdcWaypoint.dir/all
+
+# Include target in all.
+all: CMakeFiles/sdcWaypoint.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/sdcWaypoint.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/sdcWaypoint.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles 0
+.PHONY : CMakeFiles/sdcWaypoint.dir/rule
+
+# Convenience name for target.
+sdcWaypoint: CMakeFiles/sdcWaypoint.dir/rule
+
+.PHONY : sdcWaypoint
+
+# clean rule for target.
+CMakeFiles/sdcWaypoint.dir/clean:
+	$(MAKE) -f CMakeFiles/sdcWaypoint.dir/build.make CMakeFiles/sdcWaypoint.dir/clean
+.PHONY : CMakeFiles/sdcWaypoint.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/sdcWaypoint.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/sdcIntersection.dir
 
 # All Build rule for target.
-CMakeFiles/sdcIntersection.dir/all: CMakeFiles/manager.dir/all
+CMakeFiles/sdcIntersection.dir/all:
 	$(MAKE) -f CMakeFiles/sdcIntersection.dir/build.make CMakeFiles/sdcIntersection.dir/depend
 	$(MAKE) -f CMakeFiles/sdcIntersection.dir/build.make CMakeFiles/sdcIntersection.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Accounts/trank/Desktop/sdc_intersection/build/CMakeFiles --progress-num=5,6 "Built target sdcIntersection"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles --progress-num=7,8 "Built target sdcIntersection"
 .PHONY : CMakeFiles/sdcIntersection.dir/all
 
 # Include target in all.
@@ -114,9 +198,9 @@ all: CMakeFiles/sdcIntersection.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/sdcIntersection.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Accounts/trank/Desktop/sdc_intersection/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles 2
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/sdcIntersection.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Accounts/trank/Desktop/sdc_intersection/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles 0
 .PHONY : CMakeFiles/sdcIntersection.dir/rule
 
 # Convenience name for target.
@@ -135,13 +219,199 @@ clean: CMakeFiles/sdcIntersection.dir/clean
 .PHONY : clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/sdcVisibleObject.dir
+
+# All Build rule for target.
+CMakeFiles/sdcVisibleObject.dir/all: CMakeFiles/sdcLidarRay.dir/all
+CMakeFiles/sdcVisibleObject.dir/all: CMakeFiles/sdcAngle.dir/all
+	$(MAKE) -f CMakeFiles/sdcVisibleObject.dir/build.make CMakeFiles/sdcVisibleObject.dir/depend
+	$(MAKE) -f CMakeFiles/sdcVisibleObject.dir/build.make CMakeFiles/sdcVisibleObject.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles --progress-num=17,18 "Built target sdcVisibleObject"
+.PHONY : CMakeFiles/sdcVisibleObject.dir/all
+
+# Include target in all.
+all: CMakeFiles/sdcVisibleObject.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/sdcVisibleObject.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles 6
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/sdcVisibleObject.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles 0
+.PHONY : CMakeFiles/sdcVisibleObject.dir/rule
+
+# Convenience name for target.
+sdcVisibleObject: CMakeFiles/sdcVisibleObject.dir/rule
+
+.PHONY : sdcVisibleObject
+
+# clean rule for target.
+CMakeFiles/sdcVisibleObject.dir/clean:
+	$(MAKE) -f CMakeFiles/sdcVisibleObject.dir/build.make CMakeFiles/sdcVisibleObject.dir/clean
+.PHONY : CMakeFiles/sdcVisibleObject.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/sdcVisibleObject.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/sdcLidarRay.dir
+
+# All Build rule for target.
+CMakeFiles/sdcLidarRay.dir/all: CMakeFiles/sdcAngle.dir/all
+	$(MAKE) -f CMakeFiles/sdcLidarRay.dir/build.make CMakeFiles/sdcLidarRay.dir/depend
+	$(MAKE) -f CMakeFiles/sdcLidarRay.dir/build.make CMakeFiles/sdcLidarRay.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles --progress-num=9,10 "Built target sdcLidarRay"
+.PHONY : CMakeFiles/sdcLidarRay.dir/all
+
+# Include target in all.
+all: CMakeFiles/sdcLidarRay.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/sdcLidarRay.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles 4
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/sdcLidarRay.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles 0
+.PHONY : CMakeFiles/sdcLidarRay.dir/rule
+
+# Convenience name for target.
+sdcLidarRay: CMakeFiles/sdcLidarRay.dir/rule
+
+.PHONY : sdcLidarRay
+
+# clean rule for target.
+CMakeFiles/sdcLidarRay.dir/clean:
+	$(MAKE) -f CMakeFiles/sdcLidarRay.dir/build.make CMakeFiles/sdcLidarRay.dir/clean
+.PHONY : CMakeFiles/sdcLidarRay.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/sdcLidarRay.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/sdcLidarSensorInfo.dir
+
+# All Build rule for target.
+CMakeFiles/sdcLidarSensorInfo.dir/all: CMakeFiles/sdcAngle.dir/all
+	$(MAKE) -f CMakeFiles/sdcLidarSensorInfo.dir/build.make CMakeFiles/sdcLidarSensorInfo.dir/depend
+	$(MAKE) -f CMakeFiles/sdcLidarSensorInfo.dir/build.make CMakeFiles/sdcLidarSensorInfo.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles --progress-num=11,12 "Built target sdcLidarSensorInfo"
+.PHONY : CMakeFiles/sdcLidarSensorInfo.dir/all
+
+# Include target in all.
+all: CMakeFiles/sdcLidarSensorInfo.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/sdcLidarSensorInfo.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles 4
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/sdcLidarSensorInfo.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles 0
+.PHONY : CMakeFiles/sdcLidarSensorInfo.dir/rule
+
+# Convenience name for target.
+sdcLidarSensorInfo: CMakeFiles/sdcLidarSensorInfo.dir/rule
+
+.PHONY : sdcLidarSensorInfo
+
+# clean rule for target.
+CMakeFiles/sdcLidarSensorInfo.dir/clean:
+	$(MAKE) -f CMakeFiles/sdcLidarSensorInfo.dir/build.make CMakeFiles/sdcLidarSensorInfo.dir/clean
+.PHONY : CMakeFiles/sdcLidarSensorInfo.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/sdcLidarSensorInfo.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/sdcAngle.dir
+
+# All Build rule for target.
+CMakeFiles/sdcAngle.dir/all:
+	$(MAKE) -f CMakeFiles/sdcAngle.dir/build.make CMakeFiles/sdcAngle.dir/depend
+	$(MAKE) -f CMakeFiles/sdcAngle.dir/build.make CMakeFiles/sdcAngle.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles --progress-num=3,4 "Built target sdcAngle"
+.PHONY : CMakeFiles/sdcAngle.dir/all
+
+# Include target in all.
+all: CMakeFiles/sdcAngle.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/sdcAngle.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/sdcAngle.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles 0
+.PHONY : CMakeFiles/sdcAngle.dir/rule
+
+# Convenience name for target.
+sdcAngle: CMakeFiles/sdcAngle.dir/rule
+
+.PHONY : sdcAngle
+
+# clean rule for target.
+CMakeFiles/sdcAngle.dir/clean:
+	$(MAKE) -f CMakeFiles/sdcAngle.dir/build.make CMakeFiles/sdcAngle.dir/clean
+.PHONY : CMakeFiles/sdcAngle.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/sdcAngle.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/sdcManager.dir
+
+# All Build rule for target.
+CMakeFiles/sdcManager.dir/all: CMakeFiles/manager.dir/all
+	$(MAKE) -f CMakeFiles/sdcManager.dir/build.make CMakeFiles/sdcManager.dir/depend
+	$(MAKE) -f CMakeFiles/sdcManager.dir/build.make CMakeFiles/sdcManager.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles --progress-num=13,14 "Built target sdcManager"
+.PHONY : CMakeFiles/sdcManager.dir/all
+
+# Include target in all.
+all: CMakeFiles/sdcManager.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/sdcManager.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles 4
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/sdcManager.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles 0
+.PHONY : CMakeFiles/sdcManager.dir/rule
+
+# Convenience name for target.
+sdcManager: CMakeFiles/sdcManager.dir/rule
+
+.PHONY : sdcManager
+
+# clean rule for target.
+CMakeFiles/sdcManager.dir/clean:
+	$(MAKE) -f CMakeFiles/sdcManager.dir/build.make CMakeFiles/sdcManager.dir/clean
+.PHONY : CMakeFiles/sdcManager.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/sdcManager.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/manager.dir
 
 # All Build rule for target.
 CMakeFiles/manager.dir/all:
 	$(MAKE) -f CMakeFiles/manager.dir/build.make CMakeFiles/manager.dir/depend
 	$(MAKE) -f CMakeFiles/manager.dir/build.make CMakeFiles/manager.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Accounts/trank/Desktop/sdc_intersection/build/CMakeFiles --progress-num=1,2 "Built target manager"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles --progress-num=1,2 "Built target manager"
 .PHONY : CMakeFiles/manager.dir/all
 
 # Include target in all.
@@ -151,9 +421,9 @@ all: CMakeFiles/manager.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/manager.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Accounts/trank/Desktop/sdc_intersection/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles 2
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/manager.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Accounts/trank/Desktop/sdc_intersection/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles 0
 .PHONY : CMakeFiles/manager.dir/rule
 
 # Convenience name for target.

@@ -26,6 +26,9 @@
 #include "gazebo/physics/physics.hh"
 #include "gazebo/transport/transport.hh"
 #include "gazebo/util/system.hh"
+#include "sdcAngle.hh"
+#include "sdcWaypoint.hh"
+#include "sdcSensorData.hh"
 #include "sdcIntersection.hh"
 #include "manager.hh"
 
@@ -54,7 +57,126 @@ namespace gazebo {
         // A link to the chassis of the car, mainly used for access to physics variables
         // related to the car's state
         physics::LinkPtr chassis;
+        
+        math::Vector3 velocity;
 
+        // These variables are mostly set in the SDF for the car and relate to the
+        // physical parameters of the vehicle
+        double frontPower, rearPower;
+        double maxSpeed;
+        double wheelRadius;
+
+        double steeringRatio;
+        double tireAngleRange;
+
+        double aeroLoad;
+        double swayForce;
+        
+        enum CarState { stop, waypoint, intersection, follow, avoidance, parking};
+
+        enum Direction { north, south, east, west };
+
+        enum RelativeDirection { forward, aligned, backward, right, left };
+        
+        CarState DEFAULT_STATE;
+        CarState currentState;
+        Direction currentDir;
+        
+        RelativeDirection destDir;
+        RelativeDirection destDirSide;
+        
+        double gas; //variable that accelerates the car
+        double brake; //variable that brakes the car
+
+        // Scalars for accelrating and braking
+        double accelRate;
+        double brakeRate;
+
+        // Position/rotation variables
+        sdcAngle yaw;
+
+        // Waypoint variables
+        int waypointProgress;
+
+        // Intersection variables
+        bool stoppedAtSign;
+        int ignoreStopSignsCounter;
+        int atIntersection;
+
+        // Car limit variables
+        int maxCarSpeed;
+        double maxCarReverseSpeed;
+        double turningLimit;
+
+        // Flags for the car's actions
+        bool turning;
+        bool reversing;
+        bool stopping;
+
+        // Movement parameters
+        sdcAngle targetDirection;
+        double targetSteeringAmount;
+        double steeringAmount;
+        double targetSpeed;
+
+        // The x and y position of the car
+        double x;
+        double y;
+
+        
+        /////////////////////////
+        // SDC-defined methods //
+        /////////////////////////
+
+         // The 'Brain' Methods
+        void Drive();
+        void MatchTargetDirection();
+        void MatchTargetSpeed();
+        void DetectIntersection();
+
+        //Dijkstra Methods
+        void GenerateWaypoints();
+        void initializeGraph();
+        int getFirstIntersection();
+        void removeStartingEdge(int start);
+        std::vector<int> dijkstras(int start, int dest);
+        void insertWaypointTypes(std::vector<int> path, Direction startDir);
+
+        // Driving algorithms
+        void LanedDriving();
+        void GridTurning(int turn);
+        void WaypointDriving(std::vector<sdcWaypoint> waypoints);
+        
+        
+        sdcAngle AngleToTarget(math::Vector2d target);
+        bool ObjectDirectlyAhead();
+        bool IsObjectDirectlyAhead(sdcVisibleObject obj);
+        bool ObjectOnCollisionCourse();
+        bool IsObjectOnCollisionCourse(sdcVisibleObject obj);
+        bool IsObjectTooFast(sdcVisibleObject obj);
+        bool IsObjectTooFurious(sdcVisibleObject obj);
+        
+        bool IsMovingForwards();
+        double GetSpeed();
+        sdcAngle GetDirection();
+        sdcAngle GetOrientation();
+        void GetNSEW();
+        
+        // Control methods
+        void Accelerate(double amt = 1, double rate = 1.0);
+        void Brake(double amt = 1, double rate = 1.0);
+        void Stop();
+        void Reverse();
+        void StopReverse();
+        
+        
+        void SetTargetDirection(sdcAngle direction);
+        void SetTargetSteeringAmount(double a);
+        void SetTargetSpeed(double s);
+        void SetTurningLimit(double limit);
+
+        void SetAccelRate(double rate = 1.0);
+        void SetBrakeRate(double rate = 1.0);
     };
 }
 #endif

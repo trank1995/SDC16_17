@@ -70,7 +70,14 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
+  "CMakeFiles/sdcSensorData.dir/DependInfo.cmake"
   "CMakeFiles/sdcCar.dir/DependInfo.cmake"
+  "CMakeFiles/sdcWaypoint.dir/DependInfo.cmake"
   "CMakeFiles/sdcIntersection.dir/DependInfo.cmake"
+  "CMakeFiles/sdcVisibleObject.dir/DependInfo.cmake"
+  "CMakeFiles/sdcLidarRay.dir/DependInfo.cmake"
+  "CMakeFiles/sdcLidarSensorInfo.dir/DependInfo.cmake"
+  "CMakeFiles/sdcAngle.dir/DependInfo.cmake"
+  "CMakeFiles/sdcManager.dir/DependInfo.cmake"
   "CMakeFiles/manager.dir/DependInfo.cmake"
   )
