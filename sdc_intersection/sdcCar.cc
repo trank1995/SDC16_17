@@ -33,7 +33,6 @@ using namespace gazebo;
 GZ_REGISTER_MODEL_PLUGIN(sdcCar)
 
 // SDC-defined constants
-// SDC-defined constants
 const double PI = 3.14159265359;
 
 const double DIRECTION_MARGIN_OF_ERROR = 0.00855;
@@ -53,7 +52,6 @@ const double CAR_LENGTH = 2.0;
 // being directly in front of the car
 const double FRONT_OBJECT_COLLISION_WIDTH = CAR_WIDTH + 0.5;
 
-
 const sdcAngle NORTH = sdcAngle(PI/2);
 const sdcAngle SOUTH = sdcAngle(3*PI/2);
 const sdcAngle EAST = sdcAngle(0);
@@ -67,9 +65,46 @@ const std::pair<double,double> destination = {0,0};
 
 std::vector<sdcWaypoint> WAYPOINT_VEC;
 
+
+////////////////////////////////
+////////////////////////////////
+// BEGIN THE BRAIN OF THE CAR //
+////////////////////////////////
+////////////////////////////////
+
+/*
+ * Handles all logic for driving, is called every time the car receives an update
+ * request from Gazebo
+ */
 void sdcCar::Drive()
 {
     
+
+//     If not in avoidance, check if we should start following the thing
+//     in front of us. If following is done, kick out to default state
+//    if(this->currentState != intersection && this->currentState != avoidance){
+//        // If there's a stop sign, assume we're at an intersection
+//        if(this->ignoreStopSignsCounter == 0 && sdcSensorData::stopSignFrameCount > 5){
+//            this->currentState = intersection;
+//        }
+//
+//        // If something is ahead of us, default to trying to follow it
+//        if (this->ObjectDirectlyAhead()){
+//            this->currentState = follow;
+//        }else if(this->currentState == follow && !this->isTrackingObject){
+//            this->currentState = DEFAULT_STATE;;
+//        }
+//
+//        // Look for objects in danger of colliding with us, react appropriately
+//        if (this->ObjectOnCollisionCourse()){
+//            this->currentState = avoidance;
+//        }
+//    }
+
+    this->ignoreStopSignsCounter = fmax(this->ignoreStopSignsCounter - 1, 0);
+
+
+    // Possible states: stop, waypoint, intersection, follow, avoidance
     
     switch(this->currentState)
     {
@@ -78,15 +113,23 @@ void sdcCar::Drive()
         case stop:
             //printf("in stop\n");
             this->Stop();
-            break;
+        break;
+
+        // Default state; drive straight to target location
         case waypoint:
+            
+        // Handle lane driving
+
+//          this->Accelerate();
+        //  this->Stop();
+
             this->WaypointDriving(WAYPOINT_VEC);
-            break;
+        break;
 
         // At a stop sign, performing a turn
         case intersection:
             printf("intersection\n");
-            /**if(this->stoppedAtSign && this->stationaryCount > 2000){
+            if(this->stoppedAtSign && this->stationaryCount > 2000){
                 this->currentState = DEFAULT_STATE;
                 this->ignoreStopSignsCounter = 3000;
             }else if(this->stoppedAtSign && this->GetSpeed() < 0.5){
@@ -95,30 +138,91 @@ void sdcCar::Drive()
                 this->Stop();
                 this->stoppedAtSign = true;
                 this->stationaryCount = 0;
-        }**/
+        }
 
-            break;
+        break;
 
         // Follows object that is going in same direction/towards same target
         case follow:
-            break;
+            //this->Follow();
+        // Handle lane driving
+        break;
 
         // Smarter way to avoid objects; stopping, swerving, etc.
         case avoidance:
-            break;
+        // Cases: stop, swerve, go around
+            //this->Avoidance();
+        break;
 
         // Parks the car
         case parking:
-            break;
+            //this->PerpendicularPark();
+            // this->ParallelPark();
+        break;
     }
 
     // Attempts to turn towards the target direction
-    //this->MatchTargetDirection();
+    this->MatchTargetDirection();
     // Attempts to match the target speed
-    //this->MatchTargetSpeed();
+    this->MatchTargetSpeed();
 }
 
+/*
+ * Handles turning based on the value of targetDirection. Calculates both which direction
+ * to turn and by how much, as well as turning the actual wheel
+ */
+void sdcCar::MatchTargetDirection(){
+    sdcAngle directionAngleChange = this->GetDirection() - this->targetDirection;
+    // If the car needs to turn, set the target steering amount
+    if (!directionAngleChange.WithinMargin(DIRECTION_MARGIN_OF_ERROR)) {
+        // The steering amount scales based on how far we have to turn, with upper and lower limits
+        double proposedSteeringAmount = fmax(fmin(-this->turningLimit*tan(directionAngleChange.angle/-2), this->turningLimit), -this->turningLimit);
 
+        // When reversing, steering directions are inverted
+        if(!this->reversing){
+            this->SetTargetSteeringAmount(proposedSteeringAmount);
+        }else{
+            this->SetTargetSteeringAmount(-proposedSteeringAmount);
+        }
+    }
+
+    // Check if the car needs to steer, and apply a small turn in the corresponding direction
+    if (!(std::abs(this->targetSteeringAmount - this->steeringAmount) < STEERING_MARGIN_OF_ERROR)) {
+        if (this->steeringAmount < this->targetSteeringAmount) {
+            this->steeringAmount = this->steeringAmount + STEERING_ADJUSTMENT_RATE;
+        }else{
+            this->steeringAmount = this->steeringAmount - STEERING_ADJUSTMENT_RATE;
+        }
+    }
+}
+
+/*
+ * Attempts to match the current target speed
+ */
+void sdcCar::MatchTargetSpeed(){
+    // Invert all the values if the car should be moving backwards
+    int dirConst = this->reversing ? -1 : 1;
+
+    // If the car is moving the wrong direction or slower than the target speed, press on the gas
+    if((this->reversing && this->IsMovingForwards()) || (!this->reversing && !this->IsMovingForwards()) || (this->GetSpeed() < this->targetSpeed)){
+        this->gas = 1.0 * dirConst;
+        this->brake = 0.0;
+    } else if(this->GetSpeed() > this->targetSpeed){
+        // If the car is moving faster than the target speed, brake to slow down
+        this->gas = 0.0;
+        if(this->reversing != this->IsMovingForwards()){
+            this->brake = -2.0 * dirConst;
+        } else {
+            // If the car is drifting in the opposite direction it should be, don't brake
+            // as this has the side effect of accelerating the car in the opposite direction
+            this->brake = 0.0;
+        }
+    }
+}
+
+/*
+ * Drive from point to point in the given list
+ */
 void sdcCar::WaypointDriving(std::vector<sdcWaypoint> WAYPOINT_VEC) {
     int progress = this->waypointProgress;
     if(progress < WAYPOINT_VEC.size()){
@@ -141,16 +245,37 @@ void sdcCar::WaypointDriving(std::vector<sdcWaypoint> WAYPOINT_VEC) {
             this->SetTargetDirection(targetAngle);
             // this->LanedDriving();
         }
+    } else if(this->isFixingParking){
+        this->isFixingParking = false;
+        
+        this->currentState = parking;
+        this->currentPerpendicularState = straightPark;
     } else {
    
         this->currentState = stop;
     }
 }
 
+/*
+ * Uses camera data to detect lanes and sets targetDirection to stay as close
+ * as possible to the midpoint.
+ */
+void sdcCar::LanedDriving() {
+    int lanePos = sdcSensorData::LanePosition();
+    this->SetTurningLimit(sdcSensorData::GetNewSteeringMagnitude());
+    if (!(lanePos > 320 || lanePos < -320)) {
+        // It's beautiful don't question it
+        sdcAngle laneWeight = sdcAngle(tan(lanePos/(PI*66.19))/10);
+        this->SetTargetDirection(this->GetDirection() + laneWeight);
+    }
+}
+
+
+
+
 
 /*
  * Executes a turn at an intersection
- * 
  */
 void sdcCar::GridTurning(int turn){
     int progress = this->waypointProgress;
@@ -173,6 +298,9 @@ void sdcCar::GridTurning(int turn){
         this->waypointProgress++;
     }
 }
+
+
+
 
 
 //////////////////////
@@ -255,8 +383,31 @@ std::vector<int> sdcCar::dijkstras(int start, int dest) {
     //pop front
     unvisited.erase(unvisited.begin());
     }
+    //crawl backwards from dest to start to get the path
+//    for (int i = intersections[dest].place; i != -1;) {
+//    path.push_back(i);
+//    i = intersections[i].previous;
+//    }
     path.push_back(intersections[0].place);
     return path;
+}
+void sdcCar::initializeGraph() {
+    //make the sdcIntersections
+    printf("making graph\n");
+    sdcIntersection aa;
+    aa.place = 0;
+
+    aa.waypoint = sdcWaypoint(0,std::pair<double,double>(48, 10));
+    aa.wpType = WaypointType_Stop;
+
+
+    //make the distance to all intersections infinity
+    intersections = {aa};
+    for (int i = 0; i < intersections.size(); ++i) {
+        intersections[i].dist = std::numeric_limits<double>::infinity();
+        intersections[i].place = i;
+    }
+    printf("end of graph\n");
 }
 
 int sdcCar::getFirstIntersection(){
@@ -305,21 +456,6 @@ int sdcCar::getFirstIntersection(){
         }
     }
     return firstIntersection;
-}
-
-void sdcCar::initializeGraph() {
-    //make the sdcIntersections
-    printf("making graph\n");
-    sdcIntersection aa;
-    aa.place = 0;
-    aa.waypoint = sdcWaypoint(0,std::pair<double,double>(48,50));
-    aa.wpType = WaypointType_Stop;
-    intersections = {aa};
-    for (int i = 0; i < intersections.size(); ++i) {
-        intersections[i].dist = std::numeric_limits<double>::infinity();
-        intersections[i].place = i;
-    }
-    printf("end of graph\n");
 }
 
 void sdcCar::insertWaypointTypes(std::vector<int> path, Direction startDir) {
@@ -438,6 +574,77 @@ void sdcCar::removeStartingEdge(int start){
     }
 }
 
+
+////////////////////
+// HELPER METHODS //
+////////////////////
+
+/*
+ * Updates the list of objects in front of the car with the given list of new objects
+ */
+void sdcCar::UpdateFrontObjects(std::vector<sdcVisibleObject> newObjects){
+    if(this->frontObjects.size() == 0){
+        // The car wasn't tracking any objects, so just set the list equal to the new list
+        this->frontObjects = newObjects;
+        return;
+    }
+
+    std::vector<bool> isOldObjectMissing;
+    std::vector<bool> isBrandNewObject;
+    for(int i = 0; i < newObjects.size(); i++){
+        isBrandNewObject.push_back(true);
+    }
+
+    // Compare each old object to the new objects, and determine
+    // which of them are getting updated, which are missing, as well
+    // as if any of the passed in objects are brand new
+    for (int i = 0; i < this->frontObjects.size(); i++) {
+        sdcVisibleObject oldObj = this->frontObjects[i];
+        isOldObjectMissing.push_back(true);
+
+        for (int j = 0; j < newObjects.size(); j++) {
+            // Only match each new object to one old object
+            if(!isBrandNewObject[j]) continue;
+            sdcVisibleObject newObj = newObjects[j];
+
+            if(oldObj.IsSameObject(newObj)){
+                oldObj.Update(newObj);
+                this->frontObjects[i] = oldObj;
+                isOldObjectMissing[i] = false;
+                isBrandNewObject[j] = false;
+                break;
+            }
+        }
+    }
+
+    // Delete objects that are missing
+    for(int i = isOldObjectMissing.size() - 1; i >= 0; i--){
+        if(isOldObjectMissing[i]){
+            this->frontObjects.erase(this->frontObjects.begin() + i);
+        }
+    }
+
+    // Add brand new objects
+    for(int i = 0; i < newObjects.size(); i++){
+        if(isBrandNewObject[i]){
+            this->frontObjects.push_back(newObjects[i]);
+        }
+    }
+}
+
+/*
+ * Returns true if the current velocity angle matches the direction the car
+ * is facing
+ */
+bool sdcCar::IsMovingForwards(){
+    sdcAngle velAngle = GetDirection();
+    sdcAngle carAngle = this->GetOrientation();
+    return (carAngle - velAngle).IsFrontFacing();
+}
+
+/*
+ * Gets the speed of the car
+ */
 double sdcCar::GetSpeed(){
     return sqrt(pow(this->velocity.x,2) + pow(this->velocity.y,2));
 }
@@ -479,6 +686,72 @@ sdcAngle sdcCar::AngleToTarget(math::Vector2d target) {
     math::Vector2d position = sdcSensorData::GetPosition();
     math::Vector2d targetVector = math::Vector2d(target.x - position.x, target.y - position.y);
     return sdcAngle(atan2(targetVector.y, targetVector.x));
+}
+
+/*
+ * Returns true if there is an object ahead of the car that might collide with us if we
+ * continue driving straight ahead
+ */
+bool sdcCar::ObjectDirectlyAhead() {
+    if(this->frontObjects.size() == 0) return false;
+
+    for (int i = 0; i < this->frontObjects.size(); i++) {
+        if(this->IsObjectDirectlyAhead(this->frontObjects[i])){
+            return true;
+        }
+    }
+    return false;
+}
+
+/*
+ * Returns true if the given object is directly ahead of us, else false
+ */
+bool sdcCar::IsObjectDirectlyAhead(sdcVisibleObject obj){
+    double leftDist = obj.left.GetLateralDist();
+    double rightDist = obj.right.GetLateralDist();
+    if(leftDist < 0 && rightDist > 0) return true;
+    return fmin(fabs(leftDist), fabs(rightDist)) < FRONT_OBJECT_COLLISION_WIDTH / 2.;
+}
+
+/*
+ * Returns true if there is an object on a potential collision course with our car
+ */
+bool sdcCar::ObjectOnCollisionCourse(){
+    if(this->frontObjects.size() == 0) return false;
+
+    for (int i = 0; i < this->frontObjects.size(); i++) {
+        if(this->IsObjectOnCollisionCourse(this->frontObjects[i])){
+            return true;
+        }
+    }
+    return false;
+}
+
+/*
+ * Returns true if the given object is on a potential collision course with our car
+ */
+bool sdcCar::IsObjectOnCollisionCourse(sdcVisibleObject obj){
+    bool isTooFast = this->IsObjectTooFast(obj);
+    bool isTooFurious = this->IsObjectTooFurious(obj);
+    return isTooFast || isTooFurious;
+}
+
+/*
+ * Returns true if the given object is projected to run into the car within a short time period from now
+ */
+bool sdcCar::IsObjectTooFast(sdcVisibleObject obj){
+    math::Vector2d centerpoint = obj.GetCenterPoint();
+    bool inLineToCollide = (fabs(obj.lineIntercept) < 1.5 || (fabs(centerpoint.x) < 1.5 && fabs(obj.GetEstimatedXSpeed()) < fabs(0.1 * obj.GetEstimatedYSpeed())));
+    bool willHitSoon = obj.dist / obj.GetEstimatedSpeed() < 20;
+    return inLineToCollide && willHitSoon;
+}
+
+/*
+ * Returns true if the given object is very close to the car
+ */
+bool sdcCar::IsObjectTooFurious(sdcVisibleObject obj){
+    math::Vector2d centerpoint = obj.GetCenterPoint();
+    return (fabs(centerpoint.x) < FRONT_OBJECT_COLLISION_WIDTH / 2. && fabs(centerpoint.y) < 1.5);
 }
 
 ///////////////////////////
@@ -584,34 +857,45 @@ void sdcCar::SetTurningLimit(double limit){
     this->turningLimit = limit;
 }
 
+//////////////////////////////////////////////////////////////
+// GAZEBO METHODS - GAZEBO CALLS THESE AT APPROPRIATE TIMES //
+//////////////////////////////////////////////////////////////
 
-
-///////////////////////////////////////////////////////////////////
-//////////////THE STARTING THREE FUNCS ////////////////////////////
-///////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////
 /*
  * Called when initially loading the car model from the sdf. Links the car
  * to the OnUpdate methods so we can receive updates
  */
 void sdcCar::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
 {
-     printf("load");
+    // Store the model and chassis of the car for later access
+    this->model = _model;
+    this->chassis = this->model->GetLink(_sdf->Get<std::string>("chassis"));
+
+    // Get all the wheel joints
+    this->joints[0] = this->model->GetJoint(_sdf->Get<std::string>("front_left"));
+    this->joints[1] = this->model->GetJoint(_sdf->Get<std::string>("front_right"));
+    this->joints[2] = this->model->GetJoint(_sdf->Get<std::string>("back_left"));
+    this->joints[3] = this->model->GetJoint(_sdf->Get<std::string>("back_right"));
+
+    // Pull some parameters that are defined in the sdf
+    this->maxSpeed = _sdf->Get<double>("max_speed");
+    this->aeroLoad = _sdf->Get<double>("aero_load");
+    this->tireAngleRange = _sdf->Get<double>("tire_angle_range");
+    this->frontPower = _sdf->Get<double>("front_power");
+    this->rearPower = _sdf->Get<double>("rear_power");
+    this->wheelRadius = _sdf->Get<double>("wheel_radius");
+
+    // Tell Gazebo to call OnUpdate whenever the car needs an update
+    this->connections.push_back(event::Events::ConnectWorldUpdateBegin(boost::bind(&sdcCar::OnUpdate, this)));
 }
-
-/*
- * Gets the speed of the car
- */
-
 
 /*
  * Called when the car and world are being (re)initialized.
  */
 void sdcCar::Init()
 {
-    manager manager(3);
-    printf("manager id of this car is");
     printf("init\n");
+    
     // Compute the angle ratio between the steering wheel and the tires
     this->steeringRatio = STEERING_RANGE / this->tireAngleRange;
 
@@ -625,10 +909,17 @@ void sdcCar::Init()
     GenerateWaypoints();
 }
 
-
+/*
+ * Called whenever Gazebo needs an update for this model
+ */
 void sdcCar::OnUpdate()
 {
-    printf("start updating \n");
+//    if(this->stopping){
+//        printf("stopping\n");
+//        printf("%f",this->velocity.y);
+//    }
+    
+    
     // Get the current velocity of the car
     this->velocity = this->chassis->GetWorldLinearVel();
     // Get the cars current position
@@ -639,7 +930,13 @@ void sdcCar::OnUpdate()
     // Get the cars current rotation
     this->yaw = sdcSensorData::GetYaw();
 
-    
+    // Check if the front lidars have been updated, and if they have update
+    // the car's list
+    if(this->frontLidarLastUpdate != sdcSensorData::GetLidarLastUpdate(FRONT)){
+        std::vector<sdcVisibleObject> v = sdcSensorData::GetObjectsInFront();
+        this->UpdateFrontObjects(v);
+        this->frontLidarLastUpdate = sdcSensorData::GetLidarLastUpdate(FRONT);
+    }
 
     // Call our Drive function, which is the brain for the car
     //printf("going to drive\n");
@@ -713,10 +1010,14 @@ void sdcCar::OnUpdate()
             this->chassis->AddForceAtWorldPosition(axis * -amt, p.pos);
         }
     }
-
 }
+
+/*
+ * Constructor for the car. Sets several parameters to default values, some of
+ * which will get overwritten in Load or Init and others that will be updated
+ * when the car is updating
+ */
 sdcCar::sdcCar(){
-    
     printf("initializing car\n");
     this->joints.resize(4);
 
@@ -745,6 +1046,10 @@ sdcCar::sdcCar(){
     this->DEFAULT_STATE = waypoint;
     this->currentState = DEFAULT_STATE;
 
+    this->currentPerpendicularState = backPark;
+    this->currentParallelState = rightBack;
+    this->currentAvoidanceState = notAvoiding;
+
     // Set starting speed parameters
     this->targetSpeed = 6;
 
@@ -759,6 +1064,12 @@ sdcCar::sdcCar(){
     this->reversing = false;
     this->stopping = false;
 
+    // Variables for parking
+    this->targetParkingAngle = sdcAngle(0.0);
+    this->parkingAngleSet = false;
+    this->isFixingParking = false;
+    this->parkingSpotSet = false;
+
     // Variables for waypoint driving
     this->waypointProgress = 0;
 
@@ -766,7 +1077,11 @@ sdcCar::sdcCar(){
     this->stoppedAtSign = false;
     this->ignoreStopSignsCounter = 0;
     this->atIntersection = 0;
-    
+
+    // Variables for following
+    this->isTrackingObject = false;
+    this->stationaryCount = 0;
+
+    // Variables for avoidance
+    this->trackingNavWaypoint = false;
 }
-
-

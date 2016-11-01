@@ -39,12 +39,12 @@ gazebo/transport/transport.hh
 /Accounts/trank/Desktop/SDC16_17/sdc_intersection/gazebo/transport/transport.hh
 gazebo/util/system.hh
 /Accounts/trank/Desktop/SDC16_17/sdc_intersection/gazebo/util/system.hh
+sdcSensorData.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcSensorData.hh
 sdcAngle.hh
 /Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcAngle.hh
 sdcWaypoint.hh
 /Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcWaypoint.hh
-sdcSensorData.hh
-/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcSensorData.hh
 sdcIntersection.hh
 /Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcIntersection.hh
 manager.hh
