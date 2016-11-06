@@ -111,7 +111,13 @@ namespace gazebo {
         PerpendicularParkingState currentPerpendicularState;
         ParallelParkingState currentParallelState;
         AvoidanceState currentAvoidanceState;
-
+        
+        //waypoint
+        
+        sdcSensorData sensor;
+        std::vector<int> path;
+        
+        
         double gas; //variable that accelerates the car
         double brake; //variable that brakes the car
 

@@ -65,7 +65,6 @@ const std::pair<double,double> destination = {0,0};
 
 std::vector<sdcWaypoint> WAYPOINT_VEC;
 
-
 ////////////////////////////////
 ////////////////////////////////
 // BEGIN THE BRAIN OF THE CAR //
@@ -79,7 +78,8 @@ std::vector<sdcWaypoint> WAYPOINT_VEC;
 void sdcCar::Drive()
 {
     
-
+    printf("driving!\n");
+    fflush(stdout);
 //     If not in avoidance, check if we should start following the thing
 //     in front of us. If following is done, kick out to default state
 //    if(this->currentState != intersection && this->currentState != avoidance){
@@ -117,7 +117,8 @@ void sdcCar::Drive()
 
         // Default state; drive straight to target location
         case waypoint:
-            
+            printf("inwaypoint!\n");
+            fflush(stdout);
         // Handle lane driving
 
 //          this->Accelerate();
@@ -134,7 +135,7 @@ void sdcCar::Drive()
                 this->ignoreStopSignsCounter = 3000;
             }else if(this->stoppedAtSign && this->GetSpeed() < 0.5){
                 this->stationaryCount++;
-            }else if(!this->stoppedAtSign && sdcSensorData::sizeOfStopSign > 6000){
+            }else if(!this->stoppedAtSign && this->sensor.sizeOfStopSign > 6000){
                 this->Stop();
                 this->stoppedAtSign = true;
                 this->stationaryCount = 0;
@@ -261,8 +262,8 @@ void sdcCar::WaypointDriving(std::vector<sdcWaypoint> WAYPOINT_VEC) {
  * as possible to the midpoint.
  */
 void sdcCar::LanedDriving() {
-    int lanePos = sdcSensorData::LanePosition();
-    this->SetTurningLimit(sdcSensorData::GetNewSteeringMagnitude());
+    int lanePos = this->sensor.LanePosition();
+    this->SetTurningLimit(this->sensor.GetNewSteeringMagnitude());
     if (!(lanePos > 320 || lanePos < -320)) {
         // It's beautiful don't question it
         sdcAngle laneWeight = sdcAngle(tan(lanePos/(PI*66.19))/10);
@@ -320,21 +321,21 @@ void sdcCar::GenerateWaypoints(){
             dest = i;
     }
     printf("set dest\n");
-    std::vector<int> path;
+    
     removeStartingEdge(start);
     printf("remove starting edge\n");
-    path = dijkstras(start, dest);
+    this-> path = dijkstras(start, dest);
     printf("did dijtkstras\n");
-    insertWaypointTypes(path, this->currentDir);
+    insertWaypointTypes(this->path, this->currentDir);
     printf("insertedwaypointtypes\n");
-    for (int i = path.size()-1; i >=0; --i){
-        WAYPOINT_VEC.push_back(intersections[path[i]].waypoint);
+    for (int i = this->path.size()-1; i >=0; --i){
+        WAYPOINT_VEC.push_back(intersections[this->path[i]].waypoint);
     }
     printf("end of genwaypoints\n");
 }
 
 std::vector<int> sdcCar::dijkstras(int start, int dest) {
-    std::vector<int> path;
+    
     int current;
     intersections[start].dist = 0;
     intersections[start].previous = -1;
@@ -388,8 +389,8 @@ std::vector<int> sdcCar::dijkstras(int start, int dest) {
 //    path.push_back(i);
 //    i = intersections[i].previous;
 //    }
-    path.push_back(intersections[0].place);
-    return path;
+    this->path.push_back(intersections[0].place);
+    return this->path;
 }
 void sdcCar::initializeGraph() {
     //make the sdcIntersections
@@ -683,7 +684,7 @@ sdcAngle sdcCar::GetOrientation(){
  * Returns the angle from the car's current position to a target position
  */
 sdcAngle sdcCar::AngleToTarget(math::Vector2d target) {
-    math::Vector2d position = sdcSensorData::GetPosition();
+    math::Vector2d position = this->sensor.GetPosition();
     math::Vector2d targetVector = math::Vector2d(target.x - position.x, target.y - position.y);
     return sdcAngle(atan2(targetVector.y, targetVector.x));
 }
@@ -919,27 +920,31 @@ void sdcCar::OnUpdate()
 //        printf("%f",this->velocity.y);
 //    }
     
-    
+     printf("onupdate!\n");
     // Get the current velocity of the car
     this->velocity = this->chassis->GetWorldLinearVel();
     // Get the cars current position
-    math::Vector2d pose = sdcSensorData::GetPosition();
+    math::Vector2d pose = this->sensor.GetPosition();
     this->x = pose.x;
     this->y = pose.y;
     //printf("x, y is : %f %f \n", this->x, this->y);
     // Get the cars current rotation
-    this->yaw = sdcSensorData::GetYaw();
-
+    this->yaw = this->sensor.GetYaw();
+    printf("updated all infos\n");
+    fflush(stdout);
     // Check if the front lidars have been updated, and if they have update
     // the car's list
-    if(this->frontLidarLastUpdate != sdcSensorData::GetLidarLastUpdate(FRONT)){
-        std::vector<sdcVisibleObject> v = sdcSensorData::GetObjectsInFront();
+    /**if(this->frontLidarLastUpdate != this->sensor.GetLidarLastUpdate(FRONT)){
+        printf("in if statement of onupdate\n");
+        fflush(stdout);
+        std::vector<sdcVisibleObject> v = this->sensor.GetObjectsInFront();
         this->UpdateFrontObjects(v);
-        this->frontLidarLastUpdate = sdcSensorData::GetLidarLastUpdate(FRONT);
-    }
+        this->frontLidarLastUpdate = this->sensor.GetLidarLastUpdate(FRONT);
+    }**/
 
     // Call our Drive function, which is the brain for the car
-    //printf("going to drive\n");
+    printf("going to drive\n");
+    fflush(stdout);
     this->Drive();
 
 
