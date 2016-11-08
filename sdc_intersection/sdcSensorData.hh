@@ -24,61 +24,62 @@ namespace gazebo
     {
         // Lidar variables and methods
     public:
-        static void InitLidar(LidarPos lidar, double minAngle, double angleResolution, double maxRange, int numRays);
-        static void UpdateLidar(LidarPos lidar, std::vector<double>* newRays);
-        static std::vector<double> GetLidarRays(LidarPos lidar);
-        static void UpdateCameraData(int lanePos);
-        static int LanePosition();
-        static void UpdateSteeringMagnitude(double steerMag);
+        sdcSensorData();
+        void InitLidar(LidarPos lidar, double minAngle, double angleResolution, double maxRange, int numRays);
+        void UpdateLidar(LidarPos lidar, std::vector<double>* newRays);
+        std::vector<double> GetLidarRays(LidarPos lidar);
+        void UpdateCameraData(int lanePos);
+        int LanePosition();
+        void UpdateSteeringMagnitude(double steerMag);
 
-        static double GetNewSteeringMagnitude();
+        double GetNewSteeringMagnitude();
 
-        static std::vector<sdcLidarRay> GetBlockedFrontRays();
-        static std::vector<sdcLidarRay> GetBlockedBackRays();
-        static std::vector<sdcVisibleObject> GetObjectsInFront();
+        std::vector<sdcLidarRay> GetBlockedFrontRays();
+        std::vector<sdcLidarRay> GetBlockedBackRays();
+        std::vector<sdcVisibleObject> GetObjectsInFront();
 
-        static int GetLidarLastUpdate(LidarPos lidar);
-        static int GetLidarNumRays(LidarPos lidar);
-        static sdcAngle GetLidarMinAngle(LidarPos lidar);
-        static double GetLidarAngleResolution(LidarPos lidar);
-        static double GetLidarMaxRange(LidarPos lidar);
+        int GetLidarLastUpdate(LidarPos lidar);
+        int GetLidarNumRays(LidarPos lidar);
+        sdcAngle GetLidarMinAngle(LidarPos lidar);
+        double GetLidarAngleResolution(LidarPos lidar);
+        double GetLidarMaxRange(LidarPos lidar);
 
-        static sdcAngle backMinAngle;
-        static double backAngleResolution;
+        sdcAngle backMinAngle;
+        double backAngleResolution;
 
-        static int frontLidarLastUpdate;
+        int frontLidarLastUpdate;
 
-        static int stopSignFrameCount;
-        static double sizeOfStopSign;
-        static bool stopSignInLeftCamera;
-        static bool stopSignInRightCamera;
-        static int lanePosition;
-        static double newSteerMagnitude;
+        int stopSignFrameCount;
+        double sizeOfStopSign;
+        bool stopSignInLeftCamera;
+        bool stopSignInRightCamera;
+        int lanePosition;
+        double newSteerMagnitude;
 
         // GPS variables and methods
-        static double gpsX;
-        static double gpsY;
-        static sdcAngle gpsYaw;
+        double gpsX;
+        double gpsY;
+        sdcAngle gpsYaw;
 
-        static math::Vector2d GetPosition();
-        static sdcAngle GetYaw();
-        static void UpdateGPS(double x, double y, double yaw);
+        math::Vector2d GetPosition();
+        sdcAngle GetYaw();
+        void UpdateGPS(double x, double y, double yaw);
 
     private:
-        static std::vector<double>* frontLidarRays;
-        static std::vector<double>* backLidarRays;
+        std::vector<double>* frontLidarRays;
+        std::vector<double>* backLidarRays;
 
-        static std::vector<double>* topLeftLidarRays;
-        static std::vector<double>* topRightLidarRays;
-        static std::vector<double>* topForwardLidarRays;
-        static std::vector<double>* topBackwardLidarRays;
+        std::vector<double>* topLeftLidarRays;
+        std::vector<double>* topRightLidarRays;
+        std::vector<double>* topForwardLidarRays;
+        std::vector<double>* topBackwardLidarRays;
 
-        static std::vector<double>* sideLeftFrontLidarRays;
-        static std::vector<double>* sideLeftBackLidarRays;
-        static std::vector<double>* sideRightFrontLidarRays;
-        static std::vector<double>* sideRightBackLidarRays;
+        std::vector<double>* sideLeftFrontLidarRays;
+        std::vector<double>* sideLeftBackLidarRays;
+        std::vector<double>* sideRightFrontLidarRays;
+        std::vector<double>* sideRightBackLidarRays;
 
-        static std::map<LidarPos, sdcLidarSensorInfo> lidarInfoMap;
+        std::map<LidarPos, sdcLidarSensorInfo> lidarInfoMap;
     };
 }
 

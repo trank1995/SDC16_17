@@ -18,37 +18,47 @@
 
 using namespace gazebo;
 
-// Angle information for each lidar
-std::map<LidarPos, sdcLidarSensorInfo> sdcSensorData::lidarInfoMap = std::map<LidarPos, sdcLidarSensorInfo>();
 
-sdcAngle sdcSensorData::backMinAngle = sdcAngle(0);
-double sdcSensorData::backAngleResolution = 0;
-
-// The rays from each lidar
-std::vector<double>* sdcSensorData::frontLidarRays = new std::vector<double>();
-std::vector<double>* sdcSensorData::backLidarRays = new std::vector<double>();
-
-std::vector<double>* sdcSensorData::topLeftLidarRays = new std::vector<double>();
-std::vector<double>* sdcSensorData::topRightLidarRays = new std::vector<double>();
-std::vector<double>* sdcSensorData::topForwardLidarRays = new std::vector<double>();
-std::vector<double>* sdcSensorData::topBackwardLidarRays = new std::vector<double>();
-
-std::vector<double>* sdcSensorData::sideLeftFrontLidarRays = new std::vector<double>();
-std::vector<double>* sdcSensorData::sideLeftBackLidarRays = new std::vector<double>();
-std::vector<double>* sdcSensorData::sideRightFrontLidarRays = new std::vector<double>();
-std::vector<double>* sdcSensorData::sideRightBackLidarRays = new std::vector<double>();
-
-// Camera variables
-int sdcSensorData::stopSignFrameCount = 0;
-double sdcSensorData::sizeOfStopSign = 0;
-bool sdcSensorData::stopSignInLeftCamera = false;
-bool sdcSensorData::stopSignInRightCamera = false;
-int sdcSensorData::lanePosition = 0;
-double sdcSensorData::newSteerMagnitude = 10;
 
 /*
  * Initializes the lidar in the given position to store its minimum angle, as well as the resolution
  */
+
+sdcSensorData::sdcSensorData() {
+    // Angle information for each lidar
+    this->lidarInfoMap = std::map<LidarPos, sdcLidarSensorInfo>();
+    
+    this->backMinAngle = sdcAngle(0);
+    this->backAngleResolution = 0;
+    
+    // The rays from each lidar
+    this->frontLidarRays = new std::vector<double>();
+    this->backLidarRays = new std::vector<double>();
+    
+    this->topLeftLidarRays = new std::vector<double>();
+    this->topRightLidarRays = new std::vector<double>();
+    this->topForwardLidarRays = new std::vector<double>();
+    this->topBackwardLidarRays = new std::vector<double>();
+    
+    this->sideLeftFrontLidarRays = new std::vector<double>();
+    this->sideLeftBackLidarRays = new std::vector<double>();
+    this->sideRightFrontLidarRays = new std::vector<double>();
+    this->sideRightBackLidarRays = new std::vector<double>();
+    
+    // Camera variables
+    this->stopSignFrameCount = 0;
+    this->sizeOfStopSign = 0;
+    this->stopSignInLeftCamera = false;
+    this->stopSignInRightCamera = false;
+    this->lanePosition = 0;
+    this->newSteerMagnitude = 10;
+    
+    // GPS variables
+    this->gpsX = 0;
+    this->gpsY = 0;
+    this->gpsYaw = sdcAngle(0);
+}
+
 void sdcSensorData::InitLidar(LidarPos lidar, double minAngle, double angleResolution, double maxRange, int numRays){
     switch (lidar) {
         case TOP:
@@ -57,7 +67,7 @@ void sdcSensorData::InitLidar(LidarPos lidar, double minAngle, double angleResol
         // Don't init for enums that correspond to more than one sensor
         break;
         default:
-        lidarInfoMap[lidar] = sdcLidarSensorInfo(sdcAngle(minAngle), angleResolution, maxRange, numRays);
+        this->lidarInfoMap[lidar] = sdcLidarSensorInfo(sdcAngle(minAngle), angleResolution, maxRange, numRays);
     }
 }
 
@@ -68,43 +78,43 @@ void sdcSensorData::UpdateLidar(LidarPos lidar, std::vector<double>* newRays){
     lidarInfoMap[lidar].lastUpdate = (lidarInfoMap[lidar].lastUpdate + 1) % 100000000;
     switch (lidar) {
         case FRONT:
-        frontLidarRays = newRays;
+        this->frontLidarRays = newRays;
         break;
 
         case BACK:
-        backLidarRays = newRays;
+        this->backLidarRays = newRays;
         break;
 
         case TOP_FORWARD:
-        topForwardLidarRays = newRays;
+        this->topForwardLidarRays = newRays;
         break;
 
         case TOP_RIGHT:
-        topRightLidarRays = newRays;
+        this->topRightLidarRays = newRays;
         break;
 
         case TOP_BACKWARD:
-        topBackwardLidarRays = newRays;
+        this->topBackwardLidarRays = newRays;
         break;
 
         case TOP_LEFT:
-        topLeftLidarRays = newRays;
+        this->topLeftLidarRays = newRays;
         break;
 
         case SIDE_LEFT_FRONT:
-        sideLeftFrontLidarRays = newRays;
+        this->sideLeftFrontLidarRays = newRays;
         break;
 
         case SIDE_LEFT_BACK:
-        sideLeftBackLidarRays = newRays;
+        this->sideLeftBackLidarRays = newRays;
         break;
 
         case SIDE_RIGHT_FRONT:
-        sideRightFrontLidarRays = newRays;
+        this->sideRightFrontLidarRays = newRays;
         break;
 
         case SIDE_RIGHT_BACK:
-        sideRightBackLidarRays = newRays;
+        this->sideRightBackLidarRays = newRays;
         break;
 
         default:
@@ -117,54 +127,54 @@ void sdcSensorData::UpdateLidar(LidarPos lidar, std::vector<double>* newRays){
  * Retrieve any camera data that we might find helpful
  */
 void sdcSensorData::UpdateCameraData(int lanePos) {
-    lanePosition = lanePos;
+    this->lanePosition = lanePos;
 }
 
 int sdcSensorData::LanePosition() {
-    return lanePosition;
+    return this->lanePosition;
 }
 
 void sdcSensorData::UpdateSteeringMagnitude(double steerMag) {
-    newSteerMagnitude = steerMag;
+    this->newSteerMagnitude = steerMag;
 }
 
 double sdcSensorData::GetNewSteeringMagnitude() {
-    return newSteerMagnitude;
+    return this->newSteerMagnitude;
 }
 
 /*
  * Get the last update tick for the given lidar
  */
 int sdcSensorData::GetLidarLastUpdate(LidarPos lidar){
-    return lidarInfoMap[lidar].lastUpdate;
+    return this->lidarInfoMap[lidar].lastUpdate;
 }
 
 /*
  * Get the number of rays for the given lidar
  */
 int sdcSensorData::GetLidarNumRays(LidarPos lidar){
-    return lidarInfoMap[lidar].numRays;
+    return this->lidarInfoMap[lidar].numRays;
 }
 
 /*
  * Get the minimum angle for the given lidar
  */
 sdcAngle sdcSensorData::GetLidarMinAngle(LidarPos lidar){
-    return lidarInfoMap[lidar].minAngle;
+    return this->lidarInfoMap[lidar].minAngle;
 }
 
 /*
  * Get the angle between individual rays for the given lidar
  */
 double sdcSensorData::GetLidarAngleResolution(LidarPos lidar){
-    return lidarInfoMap[lidar].resolution;
+    return this->lidarInfoMap[lidar].resolution;
 }
 
 /*
  * Get the range for the given lidar
  */
 double sdcSensorData::GetLidarMaxRange(LidarPos lidar){
-    return lidarInfoMap[lidar].maxRange;
+    return this->lidarInfoMap[lidar].maxRange;
 }
 
 /*
@@ -316,10 +326,7 @@ std::vector<sdcVisibleObject> sdcSensorData::GetObjectsInFront(){
     return objectList;
 }
 
-// GPS variables
-double sdcSensorData::gpsX = 0;
-double sdcSensorData::gpsY = 0;
-sdcAngle sdcSensorData::gpsYaw = sdcAngle(0);
+
 
 /*
  * Update the gps information

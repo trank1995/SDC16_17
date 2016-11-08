@@ -61,7 +61,7 @@ const sdcAngle WEST = sdcAngle(PI);
 std::vector<int> unvisited;
 std::vector<sdcIntersection> intersections;
 const int size = 5;
-const std::pair<double,double> destination = {0,0};
+const std::pair<double,double> destination = {48,10};
 
 std::vector<sdcWaypoint> WAYPOINT_VEC;
 
@@ -128,13 +128,13 @@ void sdcCar::Drive()
 
         // At a stop sign, performing a turn
         case intersection:
-            printf("intersection\n");
+           
             if(this->stoppedAtSign && this->stationaryCount > 2000){
                 this->currentState = DEFAULT_STATE;
                 this->ignoreStopSignsCounter = 3000;
             }else if(this->stoppedAtSign && this->GetSpeed() < 0.5){
                 this->stationaryCount++;
-            }else if(!this->stoppedAtSign && sdcSensorData::sizeOfStopSign > 6000){
+            }else if(!this->stoppedAtSign && this->sensorData.sizeOfStopSign > 6000){
                 this->Stop();
                 this->stoppedAtSign = true;
                 this->stationaryCount = 0;
@@ -228,12 +228,15 @@ void sdcCar::WaypointDriving(std::vector<sdcWaypoint> WAYPOINT_VEC) {
     if(progress < WAYPOINT_VEC.size()){
         // Pull the next waypoint and set the car to drive towards it
 
-
+        //printf("waypointvec.size: %i", WAYPOINT_VEC.size());
         this->Accelerate();
 
         // Check if the car is close enough to the target to move on
         double distance = sqrt(pow(WAYPOINT_VEC[progress].pos.first - this->x,2) + pow(WAYPOINT_VEC[progress].pos.second - this->y,2));
-        if (distance < 7) {
+        //printf("distance %f", distance);
+        
+        // CODE FROM LAST GROUP THAT ASSUMES THAT THE CAR WILL TURN ONCE WE HAVE REACHED AN INTERSECTION
+        if (distance < 15) {
             this->turning = true;
         }
         if(this->turning == true){
@@ -241,6 +244,7 @@ void sdcCar::WaypointDriving(std::vector<sdcWaypoint> WAYPOINT_VEC) {
             GridTurning(WAYPOINT_VEC[progress].waypointType);
         } else {
             math::Vector2d nextTarget = {WAYPOINT_VEC[progress].pos.first,WAYPOINT_VEC[progress].pos.second};
+            //printf("first: %f second: %f", WAYPOINT_VEC[progress].pos.first, WAYPOINT_VEC[progress].pos.second);
             sdcAngle targetAngle = AngleToTarget(nextTarget);
             this->SetTargetDirection(targetAngle);
             // this->LanedDriving();
@@ -261,8 +265,8 @@ void sdcCar::WaypointDriving(std::vector<sdcWaypoint> WAYPOINT_VEC) {
  * as possible to the midpoint.
  */
 void sdcCar::LanedDriving() {
-    int lanePos = sdcSensorData::LanePosition();
-    this->SetTurningLimit(sdcSensorData::GetNewSteeringMagnitude());
+    int lanePos = this->sensorData.LanePosition();
+    this->SetTurningLimit(this->sensorData.GetNewSteeringMagnitude());
     if (!(lanePos > 320 || lanePos < -320)) {
         // It's beautiful don't question it
         sdcAngle laneWeight = sdcAngle(tan(lanePos/(PI*66.19))/10);
@@ -323,14 +327,62 @@ void sdcCar::GenerateWaypoints(){
     std::vector<int> path;
     removeStartingEdge(start);
     printf("remove starting edge\n");
+    fflush(stdout);
     path = dijkstras(start, dest);
     printf("did dijtkstras\n");
+    printf ("path.size: %lu", path.size());
     insertWaypointTypes(path, this->currentDir);
     printf("insertedwaypointtypes\n");
     for (int i = path.size()-1; i >=0; --i){
         WAYPOINT_VEC.push_back(intersections[path[i]].waypoint);
+        printf("waypoint: %f", intersections[path[i]].waypoint.pos.second);
+        printf("waypoint: %f", intersections[path[i]].waypoint.pos.first);
+        fflush(stdout);
     }
     printf("end of genwaypoints\n");
+}
+
+void sdcCar::removeStartingEdge(int start){
+    printf("removing first edge\n");
+    Direction dir = east;
+    switch (dir) {
+        case north:
+            for (int n = 0; n < intersections[start].neighbors_pairs.size(); ++n) {
+                if (intersections[start].neighbors_pairs[n].first == start - 1)
+                    intersections[start].neighbors_pairs[n].second =
+                    std::numeric_limits<double>::infinity();
+            }
+            break;
+        case south:
+            for (int n = 0; n < intersections[start].neighbors_pairs.size(); ++n) {
+                if (intersections[start].neighbors_pairs[n].first == start + 1)
+                    intersections[start].neighbors_pairs[n].second =
+                    std::numeric_limits<double>::infinity();
+            }
+            break;
+        case east:
+            printf("in the default case. start: %i",start);
+            fflush(stdout);
+            for (int n = 0; n < intersections[start].neighbors_pairs.size(); ++n) {
+                printf("outside if. n: %i", n);
+                if (intersections[start].neighbors_pairs[n].first == start - size){
+                    intersections[start].neighbors_pairs[n].second =
+                    std::numeric_limits<double>::infinity();
+                    printf("inside if. n: %i", n);
+                    fflush(stdout);
+                }
+            }
+            printf("out of for\n");
+            fflush(stdout);
+            break;
+        case west:
+            for (int n = 0; n < intersections[start].neighbors_pairs.size(); ++n) {
+                if (intersections[start].neighbors_pairs[n].first == start + size)
+                    intersections[start].neighbors_pairs[n].second =
+                    std::numeric_limits<double>::infinity();
+            }
+            break;
+    }
 }
 
 std::vector<int> sdcCar::dijkstras(int start, int dest) {
@@ -351,38 +403,41 @@ std::vector<int> sdcCar::dijkstras(int start, int dest) {
     intersections[intersections[start].neighbors_pairs[n].first].previous =
         intersections[start].place;
     }
+    
+    printf("before while");
 
     // BFS using the unvisted FI FO vector, if unvisited is 0 then we have
     // visited all intersections
     while (unvisited.size() != 0) {
-    current = unvisited[0];
-    for (int n = 0; n < intersections[current].neighbors_pairs.size(); ++n) {
+        current = unvisited[0];
+        for (int n = 0; n < intersections[current].neighbors_pairs.size(); ++n) {
       // distance to the neighbor from current intersection
-      distance = intersections[current].neighbors_pairs[n].second;
+            distance = intersections[current].neighbors_pairs[n].second;
       // if the distance of the current intersection + the distance from
       // the current intersection to neighbor is smaller than the distance
       // to neighbor, update distance and previous
-      if (intersections[intersections[current].neighbors_pairs[n].first].dist >
-          intersections[current].dist + distance) {
+            if (intersections[intersections[current].neighbors_pairs[n].first].dist >
+                intersections[current].dist + distance) {
         // update distance
-        intersections[intersections[current].neighbors_pairs[n].first].dist =
-            intersections[current].dist + distance;
+                intersections[intersections[current].neighbors_pairs[n].first].dist =
+                intersections[current].dist + distance;
         // update previous
-        intersections[intersections[current].neighbors_pairs[n].first]
-            .previous = intersections[current].place;
-      }
+                intersections[intersections[current].neighbors_pairs[n].first]
+                .previous = intersections[current].place;
+            }
       // if the neighbor has not been visited then push back into unvisited
-      if (intersections[intersections[current].neighbors_pairs[n].first]
-              .visited == 0) {
+            if (intersections[intersections[current].neighbors_pairs[n].first]
+                .visited == 0) {
         // push back neighbor into unvisited
-        unvisited.push_back(intersections[current].neighbors_pairs[n].first);
-      }
+                unvisited.push_back(intersections[current].neighbors_pairs[n].first);
+            }
       // mark the current intersection as visited
-      intersections[current].visited = 1;
+            intersections[current].visited = 1;
+        }
+        //pop front
+        unvisited.erase(unvisited.begin());
     }
-    //pop front
-    unvisited.erase(unvisited.begin());
-    }
+    printf("after while");
     //crawl backwards from dest to start to get the path
 //    for (int i = intersections[dest].place; i != -1;) {
 //    path.push_back(i);
@@ -411,51 +466,57 @@ void sdcCar::initializeGraph() {
 }
 
 int sdcCar::getFirstIntersection(){
-    std::pair<double,double> firstIntr;
-    int firstIntersection;
-
-    switch(this->currentDir){
-
-        case west:
-            firstIntr = {-1000,0};
-            for(int i = 0; i < intersections.size();++i){
-                if(this->y < intersections[i].waypoint.pos.second+5 && this->y > intersections[i].waypoint.pos.second-5 && intersections[i].waypoint.pos.first < this->x - 10 && intersections[i].waypoint.pos.first > firstIntr.first)
-                    firstIntr = intersections[i].waypoint.pos;
-            }
-            break;
-
-        case east:
-            firstIntr = {1000,0};
-            for(int i = 0; i < intersections.size();++i){
-                if(this->y < intersections[i].waypoint.pos.second+5 && this->y > intersections[i].waypoint.pos.second-5 && intersections[i].waypoint.pos.first > this->x + 10 && intersections[i].waypoint.pos.first < firstIntr.first){
-                    firstIntr = intersections[i].waypoint.pos;
-                }
-            }
-            break;
-
-        case north:
-            firstIntr = {0,1000};
-            for(int i = 0; i < intersections.size();++i){
-                if(this->x < intersections[i].waypoint.pos.first+5 && this->x > intersections[i].waypoint.pos.first-5 && intersections[i].waypoint.pos.second > this->y + 10 && intersections[i].waypoint.pos.second < firstIntr.second)
-                    firstIntr = intersections[i].waypoint.pos;
-            }
-            break;
-
-        case south:
-            firstIntr = {0,-1000};
-            for(int i = 0; i < intersections.size();++i){
-                if(this->x < intersections[i].waypoint.pos.first+5 && this->x > intersections[i].waypoint.pos.first-5 && intersections[i].waypoint.pos.second < this->y - 10 && intersections[i].waypoint.pos.second > firstIntr.second)
-                    firstIntr = intersections[i].waypoint.pos;
-            }
-            break;
-    }
-    for(int i = 0; i < intersections.size();i++){
-        if(firstIntr.first == intersections[i].waypoint.pos.first && firstIntr.second == intersections[i].waypoint.pos.second){
-            firstIntersection = i;
-            break;
-        }
-    }
-    return firstIntersection;
+//    std::pair<double,double> firstIntr;
+//    int firstIntersection;
+//
+//    switch(this->currentDir){
+//
+//        case west:
+//            firstIntr = {-1000,0};
+//            for(int i = 0; i < intersections.size();++i){
+//                if(this->y < intersections[i].waypoint.pos.second+5 && this->y > intersections[i].waypoint.pos.second-5 && intersections[i].waypoint.pos.first < this->x - 10 && intersections[i].waypoint.pos.first > firstIntr.first)
+//                    firstIntr = intersections[i].waypoint.pos;
+//            }
+//            break;
+//
+//        case east:
+//            firstIntr = {1000,0};
+//            for(int i = 0; i < intersections.size();++i){
+//                if(this->y < intersections[i].waypoint.pos.second+5 && this->y > intersections[i].waypoint.pos.second-5 && intersections[i].waypoint.pos.first > this->x + 10 && intersections[i].waypoint.pos.first < firstIntr.first){
+//                    firstIntr = intersections[i].waypoint.pos;
+//                }
+//            }
+//            break;
+//
+//        case north:
+//            firstIntr = {0,1000};
+//            for(int i = 0; i < intersections.size();++i){
+//                if(this->x < intersections[i].waypoint.pos.first+5 && this->x > intersections[i].waypoint.pos.first-5 && intersections[i].waypoint.pos.second > this->y + 10 && intersections[i].waypoint.pos.second < firstIntr.second)
+//                    firstIntr = intersections[i].waypoint.pos;
+//            }
+//            break;
+//
+//        case south:
+//            firstIntr = {0,-1000};
+//            for(int i = 0; i < intersections.size();++i){
+//                if(this->x < intersections[i].waypoint.pos.first+5 && this->x > intersections[i].waypoint.pos.first-5 && intersections[i].waypoint.pos.second < this->y - 10 && intersections[i].waypoint.pos.second > firstIntr.second)
+//                    firstIntr = intersections[i].waypoint.pos;
+//            }
+//            break;
+//    }
+//    printf("size of intrs: %i",intersections.size());
+//    fflush(stdout);
+//    for(int i = 0; i < intersections.size();i++){
+//        printf("i outside: %i", i);
+//        fflush(stdout);
+//        if(firstIntr.first == intersections[i].waypoint.pos.first && firstIntr.second == intersections[i].waypoint.pos.second){
+//            firstIntersection = i;
+//            printf("i inside: %i", i);
+//            fflush(stdout);
+//            break;
+//        }
+//    }
+    return 0;
 }
 
 void sdcCar::insertWaypointTypes(std::vector<int> path, Direction startDir) {
@@ -538,40 +599,6 @@ void sdcCar::insertWaypointTypes(std::vector<int> path, Direction startDir) {
     curDir = nextDir;
   }
   intersections[path[0]].waypoint.waypointType = WaypointType_Stop;
-}
-
-void sdcCar::removeStartingEdge(int start){
-    Direction dir = east;
-    switch (dir) {
-      case north:
-        for (int n = 0; n < intersections[start].neighbors_pairs.size(); ++n) {
-          if (intersections[start].neighbors_pairs[n].first == start - 1)
-            intersections[start].neighbors_pairs[n].second =
-                std::numeric_limits<double>::infinity();
-        }
-        break;
-      case south:
-        for (int n = 0; n < intersections[start].neighbors_pairs.size(); ++n) {
-          if (intersections[start].neighbors_pairs[n].first == start + 1)
-            intersections[start].neighbors_pairs[n].second =
-                std::numeric_limits<double>::infinity();
-        }
-        break;
-      case east:
-        for (int n = 0; n < intersections[start].neighbors_pairs.size(); ++n) {
-          if (intersections[start].neighbors_pairs[n].first == start - size)
-            intersections[start].neighbors_pairs[n].second =
-                std::numeric_limits<double>::infinity();
-        }
-        break;
-      case west:
-        for (int n = 0; n < intersections[start].neighbors_pairs.size(); ++n) {
-          if (intersections[start].neighbors_pairs[n].first == start + size)
-            intersections[start].neighbors_pairs[n].second =
-                std::numeric_limits<double>::infinity();
-        }
-        break;
-    }
 }
 
 
@@ -683,8 +710,10 @@ sdcAngle sdcCar::GetOrientation(){
  * Returns the angle from the car's current position to a target position
  */
 sdcAngle sdcCar::AngleToTarget(math::Vector2d target) {
-    math::Vector2d position = sdcSensorData::GetPosition();
-    math::Vector2d targetVector = math::Vector2d(target.x - position.x, target.y - position.y);
+    //math::Vector2d position = sdcSensorData::GetPosition();
+    math::Vector2d targetVector = math::Vector2d(target.x - this->x, target.y - this->y);
+   // printf("x vec: %f y vec: %f", target.x- this->x, target.y- this->y);
+    //fflush(stdout);
     return sdcAngle(atan2(targetVector.y, targetVector.x));
 }
 
@@ -894,7 +923,7 @@ void sdcCar::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
  */
 void sdcCar::Init()
 {
-    printf("init\n");
+
     
     // Compute the angle ratio between the steering wheel and the tires
     this->steeringRatio = STEERING_RANGE / this->tireAngleRange;
@@ -905,7 +934,7 @@ void sdcCar::Init()
     this->yaw = sdcAngle(pose.rot.GetYaw());
     this->x = pose.pos.x;
     this->y = pose.pos.y;
-    printf("going to gen waypoints\n");
+    
     GenerateWaypoints();
 }
 
@@ -923,19 +952,22 @@ void sdcCar::OnUpdate()
     // Get the current velocity of the car
     this->velocity = this->chassis->GetWorldLinearVel();
     // Get the cars current position
-    math::Vector2d pose = sdcSensorData::GetPosition();
-    this->x = pose.x;
-    this->y = pose.y;
+    math::Pose pose = this->chassis->GetWorldPose();
+    this->yaw = sdcAngle(pose.rot.GetYaw());
+    this->x = pose.pos.x;
+    this->y = pose.pos.y;
+   // this->x = pose.x;
+   // this->y = pose.y;
     //printf("x, y is : %f %f \n", this->x, this->y);
     // Get the cars current rotation
-    this->yaw = sdcSensorData::GetYaw();
+   // this->yaw = sdcSensorData::GetYaw();
 
     // Check if the front lidars have been updated, and if they have update
     // the car's list
-    if(this->frontLidarLastUpdate != sdcSensorData::GetLidarLastUpdate(FRONT)){
-        std::vector<sdcVisibleObject> v = sdcSensorData::GetObjectsInFront();
+    if(this->frontLidarLastUpdate != this->sensorData.GetLidarLastUpdate(FRONT)){
+        std::vector<sdcVisibleObject> v = this->sensorData.GetObjectsInFront();
         this->UpdateFrontObjects(v);
-        this->frontLidarLastUpdate = sdcSensorData::GetLidarLastUpdate(FRONT);
+        this->frontLidarLastUpdate = this->sensorData.GetLidarLastUpdate(FRONT);
     }
 
     // Call our Drive function, which is the brain for the car
@@ -1018,7 +1050,7 @@ void sdcCar::OnUpdate()
  * when the car is updating
  */
 sdcCar::sdcCar(){
-    printf("initializing car\n");
+    this->sensorData = sdcSensorData();
     this->joints.resize(4);
 
     // Physics variables

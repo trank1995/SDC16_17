@@ -61,9 +61,15 @@ namespace gazebo {
 
         // The velocity of the car
         math::Vector3 velocity;
+        
+        
+        //sensorData object
+        sdcSensorData sensorData;
+        
 
         // These variables are mostly set in the SDF for the car and relate to the
         // physical parameters of the vehicle
+        
         double frontPower, rearPower;
         double maxSpeed;
         double wheelRadius;
