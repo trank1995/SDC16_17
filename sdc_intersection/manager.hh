@@ -8,9 +8,11 @@
 class manager{
     public: 
         manager(int id);
-        int id = 0;
+        int id;
         void printid();
+        //static void registerCar(int carId);
+    private:
+        static int carAmt;
     
 };
-//extern manager manager;
 #endif

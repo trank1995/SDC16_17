@@ -1050,6 +1050,7 @@ void sdcCar::OnUpdate()
  * when the car is updating
  */
 sdcCar::sdcCar(){
+    //manager::registerCar(1);
     this->sensorData = sdcSensorData();
     this->joints.resize(4);
 
