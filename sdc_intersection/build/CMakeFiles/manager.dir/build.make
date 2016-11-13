@@ -34,10 +34,10 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /Software/elcapitan-local/Cellar/cmake/3.6.2/bin/cmake
+CMAKE_COMMAND = /usr/local/Cellar/cmake/3.6.2/bin/cmake
 
 # The command to remove a file.
-RM = /Software/elcapitan-local/Cellar/cmake/3.6.2/bin/cmake -E remove -f
+RM = /usr/local/Cellar/cmake/3.6.2/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -90,50 +90,52 @@ manager_EXTERNAL_OBJECTS =
 
 libmanager.dylib: CMakeFiles/manager.dir/manager.cc.o
 libmanager.dylib: CMakeFiles/manager.dir/build.make
-libmanager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo.dylib
-libmanager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_client.dylib
-libmanager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_gui_building.dylib
-libmanager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_gui_viewers.dylib
-libmanager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_gui_model.dylib
-libmanager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_gui.dylib
-libmanager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_sensors.dylib
-libmanager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_rendering.dylib
-libmanager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_selection_buffer.dylib
-libmanager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_physics_bullet.dylib
-libmanager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_physics_simbody.dylib
-libmanager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_physics_ode.dylib
-libmanager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_physics.dylib
-libmanager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_ode.dylib
-libmanager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_transport.dylib
-libmanager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_msgs.dylib
-libmanager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_util.dylib
-libmanager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_common.dylib
-libmanager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_skyx.dylib
-libmanager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_gimpact.dylib
-libmanager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_opcode.dylib
-libmanager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_opende_ou.dylib
-libmanager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_math.dylib
-libmanager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_ccd.dylib
-libmanager.dylib: /Software/elcapitan-local/lib/libboost_thread-mt.dylib
-libmanager.dylib: /Software/elcapitan-local/lib/libboost_signals-mt.dylib
-libmanager.dylib: /Software/elcapitan-local/lib/libboost_system-mt.dylib
-libmanager.dylib: /Software/elcapitan-local/lib/libboost_filesystem-mt.dylib
-libmanager.dylib: /Software/elcapitan-local/lib/libboost_program_options-mt.dylib
-libmanager.dylib: /Software/elcapitan-local/lib/libboost_regex-mt.dylib
-libmanager.dylib: /Software/elcapitan-local/lib/libboost_iostreams-mt.dylib
-libmanager.dylib: /Software/elcapitan-local/lib/libboost_date_time-mt.dylib
-libmanager.dylib: /Software/elcapitan-local/lib/libboost_chrono-mt.dylib
-libmanager.dylib: /Software/elcapitan-local/lib/libboost_atomic-mt.dylib
-libmanager.dylib: /Software/elcapitan-local/lib/libprotobuf.dylib
-libmanager.dylib: /Software/elcapitan-local/Cellar/sdformat3/3.7.0/lib/libsdformat.dylib
-libmanager.dylib: /Software/elcapitan-local/Cellar/ignition-math2/2.5.0/lib/libignition-math2.dylib
-libmanager.dylib: /Software/elcapitan-local/Cellar/ogre/1.7.4/lib/libOgreMain.dylib
-libmanager.dylib: /Software/elcapitan-local/Cellar/ogre/1.7.4/lib/libOgreTerrain.dylib
-libmanager.dylib: /Software/elcapitan-local/Cellar/ogre/1.7.4/lib/libOgrePaging.dylib
-libmanager.dylib: /Software/elcapitan-local/Cellar/ignition-math2/2.5.0/lib/libignition-math2.dylib
-libmanager.dylib: /Software/elcapitan-local/Cellar/ogre/1.7.4/lib/libOgreMain.dylib
-libmanager.dylib: /Software/elcapitan-local/Cellar/ogre/1.7.4/lib/libOgreTerrain.dylib
-libmanager.dylib: /Software/elcapitan-local/Cellar/ogre/1.7.4/lib/libOgrePaging.dylib
+libmanager.dylib: libinstruction.dylib
+libmanager.dylib: librequest.dylib
+libmanager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo.dylib
+libmanager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_client.dylib
+libmanager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_gui_building.dylib
+libmanager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_gui_viewers.dylib
+libmanager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_gui_model.dylib
+libmanager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_gui.dylib
+libmanager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_sensors.dylib
+libmanager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_rendering.dylib
+libmanager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_selection_buffer.dylib
+libmanager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_physics_bullet.dylib
+libmanager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_physics_simbody.dylib
+libmanager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_physics_ode.dylib
+libmanager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_physics.dylib
+libmanager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_ode.dylib
+libmanager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_transport.dylib
+libmanager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_msgs.dylib
+libmanager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_util.dylib
+libmanager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_common.dylib
+libmanager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_skyx.dylib
+libmanager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_gimpact.dylib
+libmanager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_opcode.dylib
+libmanager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_opende_ou.dylib
+libmanager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_math.dylib
+libmanager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_ccd.dylib
+libmanager.dylib: /usr/local/lib/libboost_thread-mt.dylib
+libmanager.dylib: /usr/local/lib/libboost_signals-mt.dylib
+libmanager.dylib: /usr/local/lib/libboost_system-mt.dylib
+libmanager.dylib: /usr/local/lib/libboost_filesystem-mt.dylib
+libmanager.dylib: /usr/local/lib/libboost_program_options-mt.dylib
+libmanager.dylib: /usr/local/lib/libboost_regex-mt.dylib
+libmanager.dylib: /usr/local/lib/libboost_iostreams-mt.dylib
+libmanager.dylib: /usr/local/lib/libboost_date_time-mt.dylib
+libmanager.dylib: /usr/local/lib/libboost_chrono-mt.dylib
+libmanager.dylib: /usr/local/lib/libboost_atomic-mt.dylib
+libmanager.dylib: /usr/local/lib/libprotobuf.dylib
+libmanager.dylib: /usr/local/Cellar/sdformat3/3.7.0/lib/libsdformat.dylib
+libmanager.dylib: /usr/local/Cellar/ignition-math2/2.5.0/lib/libignition-math2.dylib
+libmanager.dylib: /usr/local/Cellar/ogre/1.7.4/lib/libOgreMain.dylib
+libmanager.dylib: /usr/local/Cellar/ogre/1.7.4/lib/libOgreTerrain.dylib
+libmanager.dylib: /usr/local/Cellar/ogre/1.7.4/lib/libOgrePaging.dylib
+libmanager.dylib: /usr/local/Cellar/ignition-math2/2.5.0/lib/libignition-math2.dylib
+libmanager.dylib: /usr/local/Cellar/ogre/1.7.4/lib/libOgreMain.dylib
+libmanager.dylib: /usr/local/Cellar/ogre/1.7.4/lib/libOgreTerrain.dylib
+libmanager.dylib: /usr/local/Cellar/ogre/1.7.4/lib/libOgrePaging.dylib
 libmanager.dylib: CMakeFiles/manager.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX shared library libmanager.dylib"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/manager.dir/link.txt --verbose=$(VERBOSE)

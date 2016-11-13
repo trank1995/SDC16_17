@@ -13,8 +13,14 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 
 list(APPEND CMAKE_CXX_FLAGS "${GAZEBO_CXX_FLAGS}")
 
+add_library(request SHARED request.cc)
+target_link_libraries(request ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES})
+
+add_library(instruction SHARED instruction.cc)
+target_link_libraries(instruction ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES})
+
 add_library(manager SHARED manager.cc)
-target_link_libraries(manager ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES})
+target_link_libraries(manager instruction request ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES})
 
 add_library(sdcManager SHARED sdcIntersection.cc)
 target_link_libraries(sdcManager manager ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES})
@@ -41,7 +47,7 @@ add_library(sdcWaypoint SHARED sdcWaypoint.cc)
 target_link_libraries(sdcWaypoint ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES})
 
 add_library(sdcCar SHARED sdcCar.cc)
-target_link_libraries(sdcCar sdcManager manager sdcWaypoint sdcAngle  sdcSensorData sdcIntersection ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES})
+target_link_libraries(sdcCar sdcManager manager sdcWaypoint sdcAngle  sdcSensorData sdcIntersection request instruction ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES})
 
 
 

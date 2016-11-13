@@ -39,10 +39,10 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /Software/elcapitan-local/Cellar/cmake/3.6.2/bin/cmake
+CMAKE_COMMAND = /usr/local/Cellar/cmake/3.6.2/bin/cmake
 
 # The command to remove a file.
-RM = /Software/elcapitan-local/Cellar/cmake/3.6.2/bin/cmake -E remove -f
+RM = /usr/local/Cellar/cmake/3.6.2/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /Accounts/trank/Desktop/SDC16_17/sdc_intersection/build
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/Software/elcapitan-local/Cellar/cmake/3.6.2/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/usr/local/Cellar/cmake/3.6.2/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -70,7 +70,7 @@ edit_cache/fast: edit_cache
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/Software/elcapitan-local/Cellar/cmake/3.6.2/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/usr/local/Cellar/cmake/3.6.2/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -111,19 +111,6 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named sdcSensorData
-
-# Build rule for target.
-sdcSensorData: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 sdcSensorData
-.PHONY : sdcSensorData
-
-# fast build rule for target.
-sdcSensorData/fast:
-	$(MAKE) -f CMakeFiles/sdcSensorData.dir/build.make CMakeFiles/sdcSensorData.dir/build
-.PHONY : sdcSensorData/fast
-
-#=============================================================================
 # Target rules for targets named sdcCar
 
 # Build rule for target.
@@ -150,17 +137,17 @@ sdcWaypoint/fast:
 .PHONY : sdcWaypoint/fast
 
 #=============================================================================
-# Target rules for targets named sdcIntersection
+# Target rules for targets named sdcSensorData
 
 # Build rule for target.
-sdcIntersection: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 sdcIntersection
-.PHONY : sdcIntersection
+sdcSensorData: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 sdcSensorData
+.PHONY : sdcSensorData
 
 # fast build rule for target.
-sdcIntersection/fast:
-	$(MAKE) -f CMakeFiles/sdcIntersection.dir/build.make CMakeFiles/sdcIntersection.dir/build
-.PHONY : sdcIntersection/fast
+sdcSensorData/fast:
+	$(MAKE) -f CMakeFiles/sdcSensorData.dir/build.make CMakeFiles/sdcSensorData.dir/build
+.PHONY : sdcSensorData/fast
 
 #=============================================================================
 # Target rules for targets named sdcVisibleObject
@@ -176,43 +163,17 @@ sdcVisibleObject/fast:
 .PHONY : sdcVisibleObject/fast
 
 #=============================================================================
-# Target rules for targets named sdcLidarRay
+# Target rules for targets named sdcIntersection
 
 # Build rule for target.
-sdcLidarRay: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 sdcLidarRay
-.PHONY : sdcLidarRay
+sdcIntersection: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 sdcIntersection
+.PHONY : sdcIntersection
 
 # fast build rule for target.
-sdcLidarRay/fast:
-	$(MAKE) -f CMakeFiles/sdcLidarRay.dir/build.make CMakeFiles/sdcLidarRay.dir/build
-.PHONY : sdcLidarRay/fast
-
-#=============================================================================
-# Target rules for targets named sdcLidarSensorInfo
-
-# Build rule for target.
-sdcLidarSensorInfo: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 sdcLidarSensorInfo
-.PHONY : sdcLidarSensorInfo
-
-# fast build rule for target.
-sdcLidarSensorInfo/fast:
-	$(MAKE) -f CMakeFiles/sdcLidarSensorInfo.dir/build.make CMakeFiles/sdcLidarSensorInfo.dir/build
-.PHONY : sdcLidarSensorInfo/fast
-
-#=============================================================================
-# Target rules for targets named sdcAngle
-
-# Build rule for target.
-sdcAngle: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 sdcAngle
-.PHONY : sdcAngle
-
-# fast build rule for target.
-sdcAngle/fast:
-	$(MAKE) -f CMakeFiles/sdcAngle.dir/build.make CMakeFiles/sdcAngle.dir/build
-.PHONY : sdcAngle/fast
+sdcIntersection/fast:
+	$(MAKE) -f CMakeFiles/sdcIntersection.dir/build.make CMakeFiles/sdcIntersection.dir/build
+.PHONY : sdcIntersection/fast
 
 #=============================================================================
 # Target rules for targets named sdcManager
@@ -240,6 +201,98 @@ manager/fast:
 	$(MAKE) -f CMakeFiles/manager.dir/build.make CMakeFiles/manager.dir/build
 .PHONY : manager/fast
 
+#=============================================================================
+# Target rules for targets named sdcLidarSensorInfo
+
+# Build rule for target.
+sdcLidarSensorInfo: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 sdcLidarSensorInfo
+.PHONY : sdcLidarSensorInfo
+
+# fast build rule for target.
+sdcLidarSensorInfo/fast:
+	$(MAKE) -f CMakeFiles/sdcLidarSensorInfo.dir/build.make CMakeFiles/sdcLidarSensorInfo.dir/build
+.PHONY : sdcLidarSensorInfo/fast
+
+#=============================================================================
+# Target rules for targets named instruction
+
+# Build rule for target.
+instruction: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 instruction
+.PHONY : instruction
+
+# fast build rule for target.
+instruction/fast:
+	$(MAKE) -f CMakeFiles/instruction.dir/build.make CMakeFiles/instruction.dir/build
+.PHONY : instruction/fast
+
+#=============================================================================
+# Target rules for targets named request
+
+# Build rule for target.
+request: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 request
+.PHONY : request
+
+# fast build rule for target.
+request/fast:
+	$(MAKE) -f CMakeFiles/request.dir/build.make CMakeFiles/request.dir/build
+.PHONY : request/fast
+
+#=============================================================================
+# Target rules for targets named sdcAngle
+
+# Build rule for target.
+sdcAngle: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 sdcAngle
+.PHONY : sdcAngle
+
+# fast build rule for target.
+sdcAngle/fast:
+	$(MAKE) -f CMakeFiles/sdcAngle.dir/build.make CMakeFiles/sdcAngle.dir/build
+.PHONY : sdcAngle/fast
+
+#=============================================================================
+# Target rules for targets named sdcLidarRay
+
+# Build rule for target.
+sdcLidarRay: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 sdcLidarRay
+.PHONY : sdcLidarRay
+
+# fast build rule for target.
+sdcLidarRay/fast:
+	$(MAKE) -f CMakeFiles/sdcLidarRay.dir/build.make CMakeFiles/sdcLidarRay.dir/build
+.PHONY : sdcLidarRay/fast
+
+instruction.o: instruction.cc.o
+
+.PHONY : instruction.o
+
+# target to build an object file
+instruction.cc.o:
+	$(MAKE) -f CMakeFiles/instruction.dir/build.make CMakeFiles/instruction.dir/instruction.cc.o
+.PHONY : instruction.cc.o
+
+instruction.i: instruction.cc.i
+
+.PHONY : instruction.i
+
+# target to preprocess a source file
+instruction.cc.i:
+	$(MAKE) -f CMakeFiles/instruction.dir/build.make CMakeFiles/instruction.dir/instruction.cc.i
+.PHONY : instruction.cc.i
+
+instruction.s: instruction.cc.s
+
+.PHONY : instruction.s
+
+# target to generate assembly for a file
+instruction.cc.s:
+	$(MAKE) -f CMakeFiles/instruction.dir/build.make CMakeFiles/instruction.dir/instruction.cc.s
+.PHONY : instruction.cc.s
+
 manager.o: manager.cc.o
 
 .PHONY : manager.o
@@ -266,6 +319,33 @@ manager.s: manager.cc.s
 manager.cc.s:
 	$(MAKE) -f CMakeFiles/manager.dir/build.make CMakeFiles/manager.dir/manager.cc.s
 .PHONY : manager.cc.s
+
+request.o: request.cc.o
+
+.PHONY : request.o
+
+# target to build an object file
+request.cc.o:
+	$(MAKE) -f CMakeFiles/request.dir/build.make CMakeFiles/request.dir/request.cc.o
+.PHONY : request.cc.o
+
+request.i: request.cc.i
+
+.PHONY : request.i
+
+# target to preprocess a source file
+request.cc.i:
+	$(MAKE) -f CMakeFiles/request.dir/build.make CMakeFiles/request.dir/request.cc.i
+.PHONY : request.cc.i
+
+request.s: request.cc.s
+
+.PHONY : request.s
+
+# target to generate assembly for a file
+request.cc.s:
+	$(MAKE) -f CMakeFiles/request.dir/build.make CMakeFiles/request.dir/request.cc.s
+.PHONY : request.cc.s
 
 sdcAngle.o: sdcAngle.cc.o
 
@@ -493,20 +573,28 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
-	@echo "... sdcSensorData"
-	@echo "... rebuild_cache"
 	@echo "... sdcCar"
 	@echo "... sdcWaypoint"
-	@echo "... sdcIntersection"
+	@echo "... rebuild_cache"
+	@echo "... sdcSensorData"
 	@echo "... sdcVisibleObject"
-	@echo "... sdcLidarRay"
-	@echo "... sdcLidarSensorInfo"
-	@echo "... sdcAngle"
+	@echo "... sdcIntersection"
 	@echo "... sdcManager"
 	@echo "... manager"
+	@echo "... sdcLidarSensorInfo"
+	@echo "... instruction"
+	@echo "... request"
+	@echo "... sdcAngle"
+	@echo "... sdcLidarRay"
+	@echo "... instruction.o"
+	@echo "... instruction.i"
+	@echo "... instruction.s"
 	@echo "... manager.o"
 	@echo "... manager.i"
 	@echo "... manager.s"
+	@echo "... request.o"
+	@echo "... request.i"
+	@echo "... request.s"
 	@echo "... sdcAngle.o"
 	@echo "... sdcAngle.i"
 	@echo "... sdcAngle.s"

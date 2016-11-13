@@ -34,10 +34,10 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /Software/elcapitan-local/Cellar/cmake/3.6.2/bin/cmake
+CMAKE_COMMAND = /usr/local/Cellar/cmake/3.6.2/bin/cmake
 
 # The command to remove a file.
-RM = /Software/elcapitan-local/Cellar/cmake/3.6.2/bin/cmake -E remove -f
+RM = /usr/local/Cellar/cmake/3.6.2/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -91,50 +91,93 @@ sdcManager_EXTERNAL_OBJECTS =
 libsdcManager.dylib: CMakeFiles/sdcManager.dir/sdcIntersection.cc.o
 libsdcManager.dylib: CMakeFiles/sdcManager.dir/build.make
 libsdcManager.dylib: libmanager.dylib
-libsdcManager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo.dylib
-libsdcManager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_client.dylib
-libsdcManager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_gui_building.dylib
-libsdcManager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_gui_viewers.dylib
-libsdcManager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_gui_model.dylib
-libsdcManager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_gui.dylib
-libsdcManager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_sensors.dylib
-libsdcManager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_rendering.dylib
-libsdcManager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_selection_buffer.dylib
-libsdcManager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_physics_bullet.dylib
-libsdcManager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_physics_simbody.dylib
-libsdcManager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_physics_ode.dylib
-libsdcManager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_physics.dylib
-libsdcManager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_ode.dylib
-libsdcManager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_transport.dylib
-libsdcManager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_msgs.dylib
-libsdcManager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_util.dylib
-libsdcManager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_common.dylib
-libsdcManager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_skyx.dylib
-libsdcManager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_gimpact.dylib
-libsdcManager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_opcode.dylib
-libsdcManager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_opende_ou.dylib
-libsdcManager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_math.dylib
-libsdcManager.dylib: /Software/elcapitan-local/Cellar/gazebo6/6.6.0/lib/libgazebo_ccd.dylib
-libsdcManager.dylib: /Software/elcapitan-local/lib/libboost_thread-mt.dylib
-libsdcManager.dylib: /Software/elcapitan-local/lib/libboost_signals-mt.dylib
-libsdcManager.dylib: /Software/elcapitan-local/lib/libboost_system-mt.dylib
-libsdcManager.dylib: /Software/elcapitan-local/lib/libboost_filesystem-mt.dylib
-libsdcManager.dylib: /Software/elcapitan-local/lib/libboost_program_options-mt.dylib
-libsdcManager.dylib: /Software/elcapitan-local/lib/libboost_regex-mt.dylib
-libsdcManager.dylib: /Software/elcapitan-local/lib/libboost_iostreams-mt.dylib
-libsdcManager.dylib: /Software/elcapitan-local/lib/libboost_date_time-mt.dylib
-libsdcManager.dylib: /Software/elcapitan-local/lib/libboost_chrono-mt.dylib
-libsdcManager.dylib: /Software/elcapitan-local/lib/libboost_atomic-mt.dylib
-libsdcManager.dylib: /Software/elcapitan-local/lib/libprotobuf.dylib
-libsdcManager.dylib: /Software/elcapitan-local/Cellar/sdformat3/3.7.0/lib/libsdformat.dylib
-libsdcManager.dylib: /Software/elcapitan-local/Cellar/ignition-math2/2.5.0/lib/libignition-math2.dylib
-libsdcManager.dylib: /Software/elcapitan-local/Cellar/ogre/1.7.4/lib/libOgreMain.dylib
-libsdcManager.dylib: /Software/elcapitan-local/Cellar/ogre/1.7.4/lib/libOgreTerrain.dylib
-libsdcManager.dylib: /Software/elcapitan-local/Cellar/ogre/1.7.4/lib/libOgrePaging.dylib
-libsdcManager.dylib: /Software/elcapitan-local/Cellar/ignition-math2/2.5.0/lib/libignition-math2.dylib
-libsdcManager.dylib: /Software/elcapitan-local/Cellar/ogre/1.7.4/lib/libOgreMain.dylib
-libsdcManager.dylib: /Software/elcapitan-local/Cellar/ogre/1.7.4/lib/libOgreTerrain.dylib
-libsdcManager.dylib: /Software/elcapitan-local/Cellar/ogre/1.7.4/lib/libOgrePaging.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_client.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_gui_building.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_gui_viewers.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_gui_model.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_gui.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_sensors.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_rendering.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_selection_buffer.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_physics_bullet.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_physics_simbody.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_physics_ode.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_physics.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_ode.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_transport.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_msgs.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_util.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_common.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_skyx.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_gimpact.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_opcode.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_opende_ou.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_math.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_ccd.dylib
+libsdcManager.dylib: /usr/local/lib/libboost_thread-mt.dylib
+libsdcManager.dylib: /usr/local/lib/libboost_signals-mt.dylib
+libsdcManager.dylib: /usr/local/lib/libboost_system-mt.dylib
+libsdcManager.dylib: /usr/local/lib/libboost_filesystem-mt.dylib
+libsdcManager.dylib: /usr/local/lib/libboost_program_options-mt.dylib
+libsdcManager.dylib: /usr/local/lib/libboost_regex-mt.dylib
+libsdcManager.dylib: /usr/local/lib/libboost_iostreams-mt.dylib
+libsdcManager.dylib: /usr/local/lib/libboost_date_time-mt.dylib
+libsdcManager.dylib: /usr/local/lib/libboost_chrono-mt.dylib
+libsdcManager.dylib: /usr/local/lib/libboost_atomic-mt.dylib
+libsdcManager.dylib: /usr/local/lib/libprotobuf.dylib
+libsdcManager.dylib: /usr/local/Cellar/sdformat3/3.7.0/lib/libsdformat.dylib
+libsdcManager.dylib: /usr/local/Cellar/ignition-math2/2.5.0/lib/libignition-math2.dylib
+libsdcManager.dylib: /usr/local/Cellar/ogre/1.7.4/lib/libOgreMain.dylib
+libsdcManager.dylib: /usr/local/Cellar/ogre/1.7.4/lib/libOgreTerrain.dylib
+libsdcManager.dylib: /usr/local/Cellar/ogre/1.7.4/lib/libOgrePaging.dylib
+libsdcManager.dylib: /usr/local/Cellar/ignition-math2/2.5.0/lib/libignition-math2.dylib
+libsdcManager.dylib: libinstruction.dylib
+libsdcManager.dylib: librequest.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_client.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_gui_building.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_gui_viewers.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_gui_model.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_gui.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_sensors.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_rendering.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_selection_buffer.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_physics_bullet.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_physics_simbody.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_physics_ode.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_physics.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_ode.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_transport.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_msgs.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_util.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_common.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_skyx.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_gimpact.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_opcode.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_opende_ou.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_math.dylib
+libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo_ccd.dylib
+libsdcManager.dylib: /usr/local/lib/libboost_thread-mt.dylib
+libsdcManager.dylib: /usr/local/lib/libboost_signals-mt.dylib
+libsdcManager.dylib: /usr/local/lib/libboost_system-mt.dylib
+libsdcManager.dylib: /usr/local/lib/libboost_filesystem-mt.dylib
+libsdcManager.dylib: /usr/local/lib/libboost_program_options-mt.dylib
+libsdcManager.dylib: /usr/local/lib/libboost_regex-mt.dylib
+libsdcManager.dylib: /usr/local/lib/libboost_iostreams-mt.dylib
+libsdcManager.dylib: /usr/local/lib/libboost_date_time-mt.dylib
+libsdcManager.dylib: /usr/local/lib/libboost_chrono-mt.dylib
+libsdcManager.dylib: /usr/local/lib/libboost_atomic-mt.dylib
+libsdcManager.dylib: /usr/local/lib/libprotobuf.dylib
+libsdcManager.dylib: /usr/local/Cellar/sdformat3/3.7.0/lib/libsdformat.dylib
+libsdcManager.dylib: /usr/local/Cellar/ignition-math2/2.5.0/lib/libignition-math2.dylib
+libsdcManager.dylib: /usr/local/Cellar/ogre/1.7.4/lib/libOgreMain.dylib
+libsdcManager.dylib: /usr/local/Cellar/ogre/1.7.4/lib/libOgreTerrain.dylib
+libsdcManager.dylib: /usr/local/Cellar/ogre/1.7.4/lib/libOgrePaging.dylib
+libsdcManager.dylib: /usr/local/Cellar/ignition-math2/2.5.0/lib/libignition-math2.dylib
+libsdcManager.dylib: /usr/local/Cellar/ogre/1.7.4/lib/libOgreMain.dylib
+libsdcManager.dylib: /usr/local/Cellar/ogre/1.7.4/lib/libOgreTerrain.dylib
+libsdcManager.dylib: /usr/local/Cellar/ogre/1.7.4/lib/libOgrePaging.dylib
 libsdcManager.dylib: CMakeFiles/sdcManager.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX shared library libsdcManager.dylib"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/sdcManager.dir/link.txt --verbose=$(VERBOSE)

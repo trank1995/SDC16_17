@@ -61,10 +61,12 @@ const sdcAngle WEST = sdcAngle(PI);
 std::vector<int> unvisited;
 std::vector<sdcIntersection> intersections;
 const int size = 5;
-const std::pair<double,double> destination = {48,10};
+//std::pair<double,double> destination = {50,50};
 
-std::vector<sdcWaypoint> WAYPOINT_VEC;
+//std::vector<std::pair<double,double>> destinations;
 
+
+int sdcCar::carId = 1;
 
 ////////////////////////////////
 ////////////////////////////////
@@ -225,6 +227,7 @@ void sdcCar::MatchTargetSpeed(){
  */
 void sdcCar::WaypointDriving(std::vector<sdcWaypoint> WAYPOINT_VEC) {
     int progress = this->waypointProgress;
+    //printf("waypointvec size: %lu \n", WAYPOINT_VEC.size());
     if(progress < WAYPOINT_VEC.size()){
         // Pull the next waypoint and set the car to drive towards it
 
@@ -236,14 +239,19 @@ void sdcCar::WaypointDriving(std::vector<sdcWaypoint> WAYPOINT_VEC) {
         //printf("distance %f", distance);
         
         // CODE FROM LAST GROUP THAT ASSUMES THAT THE CAR WILL TURN ONCE WE HAVE REACHED AN INTERSECTION
-        if (distance < 15) {
+        if (distance < (this->GetSpeed() * this->GetSpeed())/2.9) {
+            printf("speed: %f \n",this->GetSpeed());
+            fflush(stdout);
             this->turning = true;
         }
         if(this->turning == true){
+            printf("in turning");
             this->SetTurningLimit(20);
             GridTurning(WAYPOINT_VEC[progress].waypointType);
         } else {
             math::Vector2d nextTarget = {WAYPOINT_VEC[progress].pos.first,WAYPOINT_VEC[progress].pos.second};
+            //printf("nextTarget.x: %f \n", WAYPOINT_VEC[1].pos.first);
+            fflush(stdout);
             //printf("first: %f second: %f", WAYPOINT_VEC[progress].pos.first, WAYPOINT_VEC[progress].pos.second);
             sdcAngle targetAngle = AngleToTarget(nextTarget);
             this->SetTargetDirection(targetAngle);
@@ -318,11 +326,11 @@ void sdcCar::GenerateWaypoints(){
     initializeGraph();
     const int start = getFirstIntersection();
     printf("got first intersection\n");
-    int dest;
-    for(int i = 0; i < intersections.size(); ++i){
-        if(intersections[i].waypoint.pos.first == destination.first && intersections[i].waypoint.pos.second == destination.second)
-            dest = i;
-    }
+    int dest = 0;
+//    for(int i = 0; i < intersections.size(); ++i){
+//        if(intersections[i].waypoint.pos.first == destination.first && intersections[i].waypoint.pos.second == destination.second)
+//            dest = i;
+//    }
     printf("set dest\n");
     std::vector<int> path;
     removeStartingEdge(start);
@@ -334,7 +342,10 @@ void sdcCar::GenerateWaypoints(){
     insertWaypointTypes(path, this->currentDir);
     printf("insertedwaypointtypes\n");
     for (int i = path.size()-1; i >=0; --i){
+        printf("i in generate waypoints: %i \n", i);
+        fflush(stdout);
         WAYPOINT_VEC.push_back(intersections[path[i]].waypoint);
+        printf("size of vec: %lu \n", WAYPOINT_VEC.size());
         printf("waypoint: %f", intersections[path[i]].waypoint.pos.second);
         printf("waypoint: %f", intersections[path[i]].waypoint.pos.first);
         fflush(stdout);
@@ -448,11 +459,24 @@ std::vector<int> sdcCar::dijkstras(int start, int dest) {
 }
 void sdcCar::initializeGraph() {
     //make the sdcIntersections
-    printf("making graph\n");
     sdcIntersection aa;
     aa.place = 0;
+    if(this->x > 45 && this->x < 52){
+        printf("idfirst:%i",carId);
+        fflush(stdout);
+        aa.waypoint = sdcWaypoint(0,std::pair<double,double>(48,10));
+    }
+    else if(this->y > 45 && this->y < 52){
+        printf("idsecond:%i",carId);
+        fflush(stdout);
+        aa.waypoint = sdcWaypoint(0,std::pair<double,double>(45,48));
+    }
+    else{
+        printf("woops");
+        fflush(stdout);
+    }
 
-    aa.waypoint = sdcWaypoint(0,std::pair<double,double>(48, 10));
+    
     aa.wpType = WaypointType_Stop;
 
 
@@ -605,6 +629,7 @@ void sdcCar::insertWaypointTypes(std::vector<int> path, Direction startDir) {
 ////////////////////
 // HELPER METHODS //
 ////////////////////
+
 
 /*
  * Updates the list of objects in front of the car with the given list of new objects
@@ -923,8 +948,10 @@ void sdcCar::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
  */
 void sdcCar::Init()
 {
-
-    
+    printf("started init");
+//    destinations[0] = {48,10};
+//    destinations[1] = {90,48};
+    printf("created destinations");
     // Compute the angle ratio between the steering wheel and the tires
     this->steeringRatio = STEERING_RANGE / this->tireAngleRange;
 
@@ -947,7 +974,9 @@ void sdcCar::OnUpdate()
 //        printf("stopping\n");
 //        printf("%f",this->velocity.y);
 //    }
-    
+//    if(this->turning == true){
+//        printf("speed: %f \n",this->GetSpeed());
+//    }
     
     // Get the current velocity of the car
     this->velocity = this->chassis->GetWorldLinearVel();
@@ -1050,7 +1079,8 @@ void sdcCar::OnUpdate()
  * when the car is updating
  */
 sdcCar::sdcCar(){
-    //manager::registerCar(1);
+    manager::registerCar(carId++);
+    
     this->sensorData = sdcSensorData();
     this->joints.resize(4);
 

@@ -10,5 +10,4 @@ class request{
         void printid();
     
 };
-//extern manager manager;
 #endif

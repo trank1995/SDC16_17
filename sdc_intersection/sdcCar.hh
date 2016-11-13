@@ -21,6 +21,8 @@
 #include <string>
 #include <vector>
 #include <exception>
+#include <cstdlib>
+#include <ctime>
 
 #include "gazebo/common/Plugin.hh"
 #include "gazebo/physics/physics.hh"
@@ -31,7 +33,8 @@
 #include "sdcWaypoint.hh"
 #include "sdcIntersection.hh"
 #include "manager.hh"
-
+#include "request.hh"
+#include "instruction.hh"
 
 namespace gazebo {
 
@@ -62,7 +65,8 @@ namespace gazebo {
         // The velocity of the car
         math::Vector3 velocity;
         
-        
+        //WAYPOINTS for intersection driving
+        std::vector<sdcWaypoint> WAYPOINT_VEC;
         //sensorData object
         sdcSensorData sensorData;
         
@@ -171,6 +175,7 @@ namespace gazebo {
         int frontLidarLastUpdate;
 
         // The x and y position of the car
+        static int carId;
         double x;
         double y;
 
@@ -218,6 +223,7 @@ namespace gazebo {
         sdcAngle GetDirection();
         sdcAngle GetOrientation();
         void GetNSEW();
+        
 
         // Control methods
         void Accelerate(double amt = 1, double rate = 1.0);

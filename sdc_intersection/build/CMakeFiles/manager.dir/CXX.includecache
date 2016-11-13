@@ -6,11 +6,25 @@
 
 #IncludeRegexTransform: 
 
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/instruction.hh
+iostream
+-
+
 /Accounts/trank/Desktop/SDC16_17/sdc_intersection/manager.cc
 manager.hh
 /Accounts/trank/Desktop/SDC16_17/sdc_intersection/manager.hh
 
 /Accounts/trank/Desktop/SDC16_17/sdc_intersection/manager.hh
+iostream
+-
+vector
+-
+request.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/request.hh
+instruction.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/instruction.hh
+
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/request.hh
 iostream
 -
 
