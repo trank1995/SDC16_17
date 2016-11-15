@@ -67,6 +67,7 @@ namespace gazebo {
         
         //WAYPOINTS for intersection driving
         std::vector<sdcWaypoint> WAYPOINT_VEC;
+        std::vector<sdcIntersection> intersections;
         //sensorData object
         sdcSensorData sensorData;
         
@@ -131,11 +132,14 @@ namespace gazebo {
 
         // Position/rotation variables
         sdcAngle yaw;
+        
 
         // Waypoint variables
         int waypointProgress;
 
         // Intersection variables
+        bool inIntersection;
+        int destDirection;
         bool stoppedAtSign;
         int ignoreStopSignsCounter;
         int atIntersection;

@@ -14,6 +14,8 @@ class manager{
         int id;
         void printid();
         static void registerCar(int carId);
+        static bool stopSignHandleRequest(int carId, double x, double y, int direction);
+        static void stopSignCarLeft(int carId);
     private:
         static int carAmt;
         static std::vector<int> carList;

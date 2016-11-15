@@ -21,3 +21,19 @@ void manager::registerCar(int carId) {
     fflush(stdout);
     
 }
+
+bool manager::stopSignHandleRequest(int carId, double x, double y, int direction) {
+    
+    if (carAmt == 0) { //no car at intersection
+        registerCar(carId);
+        return true;
+    }else if(carAmt > 0) { //one car
+        return false;
+    }
+    return false;
+}
+
+void manager::stopSignCarLeft(int carId) {
+    carList.erase(std::remove(carList.begin(), carList.end(), carId), carList.end());
+    carAmt--;
+}
