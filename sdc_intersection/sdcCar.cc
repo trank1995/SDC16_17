@@ -57,6 +57,13 @@ const sdcAngle SOUTH = sdcAngle(3*PI/2);
 const sdcAngle EAST = sdcAngle(0);
 const sdcAngle WEST = sdcAngle(PI);
 
+//destLocations
+const std::vector<std::pair<double,double>> ends = {
+    std::pair<double,double>(52.5, 90),
+    std::pair<double,double>(90, 48),
+    std::pair<double,double>(48, 10),
+    std::pair<double,double>(10,52.5)};
+//n, e, s, w
 //dijkstra's stuff
 std::vector<int> unvisited;
 
@@ -66,7 +73,7 @@ const int size = 5;
 //std::vector<std::pair<double,double>> destinations;
 
 
-int sdcCar::carId = 1;
+int sdcCar::carIdCount = 0;
 
 ////////////////////////////////
 ////////////////////////////////
@@ -312,9 +319,18 @@ void sdcCar::GridTurning(int turn){
         }
         else{
             if(GetSpeed() < .1){
-                if(manager::stopSignHandleRequest(carId, this->x, this->y, WAYPOINT_VEC[progress].waypointType)){
+                //printf("waypointType: %i\n", WAYPOINT_VEC[progress].waypointType);
+                //printf("progress: %i\n", progress);
+               // printf("waypointvec[0].x: %f\n", WAYPOINT_VEC[progress].pos.first);
+               // printf("waypointvec[0].x: %f\n", WAYPOINT_VEC[progress].pos.second);
+                
+                //fflush(stdout);
+                if(manager::stopSignHandleRequest(carId, WAYPOINT_VEC[progress].waypointType, this->destDirection)){
                     WAYPOINT_VEC[progress].hasReservation = true;
-                    inIntersection = true;
+                    this->inIntersection = true;
+                    printf("got reservation\n");
+                    printf("destDirection: %i\n", this->destDirection);
+                    fflush(stdout);
                 }
             }
             this->Stop();
@@ -329,8 +345,8 @@ void sdcCar::GridTurning(int turn){
     else {
         if(WAYPOINT_VEC[progress].hasReservation){
             math::Vector2d nextTarget = {WAYPOINT_VEC[progress+1].pos.first,WAYPOINT_VEC[progress+1].pos.second};
-            printf("next target pos.first: %f\n",WAYPOINT_VEC[progress+1].pos.first);
-            printf("next target pos.second: %f\n",WAYPOINT_VEC[progress+1].pos.second);
+//            printf("next target pos.first: %f\n",WAYPOINT_VEC[progress+1].pos.first);
+//            printf("next target pos.second: %f\n",WAYPOINT_VEC[progress+1].pos.second);
             fflush(stdout);
             sdcAngle targetAngle = AngleToTarget(nextTarget);
             this->SetTargetDirection(targetAngle);
@@ -342,9 +358,12 @@ void sdcCar::GridTurning(int turn){
         }
         else{
             if(GetSpeed() < .1){
-                if(manager::stopSignHandleRequest(carId, this->x, this->y, WAYPOINT_VEC[progress].waypointType)){
+                if(manager::stopSignHandleRequest(carId, WAYPOINT_VEC[progress].waypointType, this->destDirection)){
                     WAYPOINT_VEC[progress].hasReservation = true;
                     inIntersection = true;
+                    printf("got reservation\n");
+                    printf("destDirection: %i\n", this->destDirection);
+                    fflush(stdout);
                 }
             }
             this->Stop();
@@ -364,185 +383,99 @@ void sdcCar::GridTurning(int turn){
 
 //Generates a series of waypoints to get to the desired destination
 void sdcCar::GenerateWaypoints(){
-    printf("in generateWaypoints\n");
+    //printf("in generateWaypoints\n");
     GetNSEW();
     initializeGraph();
-    const int start = getFirstIntersection();
-    printf("got first intersection\n");
-    int dest = 0;
-//    for(int i = 0; i < intersections.size(); ++i){
-//        if(intersections[i].waypoint.pos.first == destination.first && intersections[i].waypoint.pos.second == destination.second)
-//            dest = i;
-//    }
-    printf("set dest\n");
-    std::vector<int> path;
-    //removeStartingEdge(start);
-    printf("remove starting edge\n");
-    fflush(stdout);
-    path = dijkstras(start, dest);
-    printf("did dijtkstras\n");
-    printf ("path.size: %lu\n", path.size());
-    insertWaypointTypes(path, this->currentDir);
-    printf("insertedwaypointtypes\n");
-    for (int i = path.size()-1; i >=0; --i){
-        printf("i in generate waypoints: %i \n", i);
-        fflush(stdout);
-        WAYPOINT_VEC.push_back(intersections[path[i]].waypoint);
-        printf("size of vec: %lu \n", WAYPOINT_VEC.size());
-        printf("waypoint: %f\n", intersections[path[i]].waypoint.pos.second);
-        printf("waypoint: %f\n", intersections[path[i]].waypoint.pos.first);
-        fflush(stdout);
-    }
-    printf("end of genwaypoints\n");
+    insertWaypointTypes(this->currentDir);
+    WAYPOINT_VEC.push_back(intersections[1].waypoint);
+    WAYPOINT_VEC.push_back(intersections[0].waypoint);
+   // printf("end of genwaypoints\n");
 }
 
-void sdcCar::removeStartingEdge(int start){
-    printf("removing first edge\n");
-    Direction dir = east;
-    switch (dir) {
-        case north:
-            for (int n = 0; n < intersections[start].neighbors_pairs.size(); ++n) {
-                if (intersections[start].neighbors_pairs[n].first == start - 1)
-                    intersections[start].neighbors_pairs[n].second =
-                    std::numeric_limits<double>::infinity();
-            }
-            break;
-        case south:
-            for (int n = 0; n < intersections[start].neighbors_pairs.size(); ++n) {
-                if (intersections[start].neighbors_pairs[n].first == start + 1)
-                    intersections[start].neighbors_pairs[n].second =
-                    std::numeric_limits<double>::infinity();
-            }
-            break;
-        case east:
-            printf("in the default case. start: %i\n",start);
-            fflush(stdout);
-            for (int n = 0; n < intersections[start].neighbors_pairs.size(); ++n) {
-                printf("outside if. n: %i", n);
-                if (intersections[start].neighbors_pairs[n].first == start - size){
-                    intersections[start].neighbors_pairs[n].second =
-                    std::numeric_limits<double>::infinity();
-                    printf("inside if. n: %i", n);
-                    fflush(stdout);
-                }
-            }
-            printf("out of for\n");
-            fflush(stdout);
-            break;
-        case west:
-            for (int n = 0; n < intersections[start].neighbors_pairs.size(); ++n) {
-                if (intersections[start].neighbors_pairs[n].first == start + size)
-                    intersections[start].neighbors_pairs[n].second =
-                    std::numeric_limits<double>::infinity();
-            }
-            break;
-    }
-}
 
-std::vector<int> sdcCar::dijkstras(int start, int dest) {
-    std::vector<int> path;
-//    int current;
-//    intersections[start].dist = 0;
-//    intersections[start].previous = -1;
-//    double distance;
-
-//    // initializes the unvisited list by placing all of start's neighbors in it
-//    for (int n = 0; n < intersections[start].neighbors_pairs.size(); ++n) {
-//    // push back each neighbor of the start into unvisited
-//    unvisited.push_back(intersections[start].neighbors_pairs[n].first);
-//    // set the distance of each neighbor to the distance of the edge
-//    // from start to neighbor and make neighbor previous = start
-//    intersections[intersections[start].neighbors_pairs[n].first].dist =
-//        intersections[start].neighbors_pairs[n].second;
-//    intersections[intersections[start].neighbors_pairs[n].first].previous =
-//        intersections[start].place;
-//    }
-    
-//    printf("before while");
-
-    // BFS using the unvisted FI FO vector, if unvisited is 0 then we have
-    // visited all intersections
-//    while (unvisited.size() != 0) {
-//        current = unvisited[0];
-//        for (int n = 0; n < intersections[current].neighbors_pairs.size(); ++n) {
-//      // distance to the neighbor from current intersection
-//            distance = intersections[current].neighbors_pairs[n].second;
-//      // if the distance of the current intersection + the distance from
-//      // the current intersection to neighbor is smaller than the distance
-//      // to neighbor, update distance and previous
-//            if (intersections[intersections[current].neighbors_pairs[n].first].dist >
-//                intersections[current].dist + distance) {
-//        // update distance
-//                intersections[intersections[current].neighbors_pairs[n].first].dist =
-//                intersections[current].dist + distance;
-//        // update previous
-//                intersections[intersections[current].neighbors_pairs[n].first]
-//                .previous = intersections[current].place;
-//            }
-//      // if the neighbor has not been visited then push back into unvisited
-//            if (intersections[intersections[current].neighbors_pairs[n].first]
-//                .visited == 0) {
-//        // push back neighbor into unvisited
-//                unvisited.push_back(intersections[current].neighbors_pairs[n].first);
-//            }
-//      // mark the current intersection as visited
-//            intersections[current].visited = 1;
-//        }
-//        //pop front
-//        unvisited.erase(unvisited.begin());
-//    }
-//    printf("after while");
-    //crawl backwards from dest to start to get the path
-    for (int i = 0; i < intersections.size(); i++){
-        path.push_back(intersections[i].place);
-    }
-    printf("path size: %lu\n", path.size());
-    printf("path first: %i\n", path[0]);
-    printf("path second: %i\n", path[1]);
-    fflush(stdout);
-//    for (int i = intersections[dest].place; i != -1;) {
-//        path.push_back(i);
-//        i = intersections[i].previous;
-//    }
-    return path;
-}
+//nesw
 void sdcCar::initializeGraph() {
     //make the sdcIntersections
     sdcIntersection destIntersection;
     destIntersection.place = 0;
     sdcIntersection centerIntersection;
     centerIntersection.place = 1;
-    if(this->x > 45 && this->x < 52){
+    int turnType = genRand(2); //returns if the car goes straight (0) left (1) or right (2)
+    printf("turnType: %i carId: %i\n", turnType, this->carId);
+    fflush(stdout);
+    
+    if(this->x > 46 && this->x < 50){ //NORTH END
         printf("idfirst:%i",carId);
         fflush(stdout);
         //right turns first dest is 3 past intersection
         //left turns first dest is 7 past intersection
-        destIntersection.waypoint = sdcWaypoint(0,std::pair<double,double>(10,53));
-        destIntersection.waypoint.waypointType = 3;
-//        centerIntersection.waypoint = sdcWaypoint(0,std::pair<double,double>(48,47));
-//        destIntersection.waypoint = sdcWaypoint(0,std::pair<double,double>(48,10));
+        switch(turnType){
+            case 0:
+                destIntersection.waypoint = sdcWaypoint(0,ends[2]);
+                break;
+            case 1:
+                destIntersection.waypoint = sdcWaypoint(0,ends[1]);
+                break;
+            case 2:
+                destIntersection.waypoint = sdcWaypoint(0,ends[3]);
+                break;
+        }
         centerIntersection.waypoint = sdcWaypoint(0,std::pair<double,double>(48,55));
-        centerIntersection.waypoint.waypointType = 2;
+        
     }
-    else if(this->y > 45 && this->y < 52){
-        printf("idsecond:%i",carId);
-        fflush(stdout);
-//        destIntersection.waypoint = sdcWaypoint(0,std::pair<double,double>(90,48));
-//        destIntersection.waypoint.waypointType = 3;
-//        centerIntersection.waypoint = sdcWaypoint(0,std::pair<double,double>(45,48));
-//        centerIntersection.waypoint.waypointType = 0;
-        destIntersection.waypoint = sdcWaypoint(0,std::pair<double,double>(53,90));
-        destIntersection.waypoint.waypointType = 3;
+    else if(this->y > 50 && this->y < 54){ //EAST
+        switch(turnType){
+            case 0:
+                destIntersection.waypoint = sdcWaypoint(0,ends[3]);
+                break;
+            case 1:
+                destIntersection.waypoint = sdcWaypoint(0,ends[2]);
+                break;
+            case 2:
+                destIntersection.waypoint = sdcWaypoint(0,ends[0]);
+                break;
+        }
+        centerIntersection.waypoint = sdcWaypoint(0,std::pair<double,double>(55,52.5));
+    }
+    
+    else if(this->x > 50 && this->x < 54){ //SOUTH
+        switch(turnType){
+            case 0:
+                destIntersection.waypoint = sdcWaypoint(0,ends[0]);
+                break;
+            case 1:
+                destIntersection.waypoint = sdcWaypoint(0,ends[3]);
+                break;
+            case 2:
+                destIntersection.waypoint = sdcWaypoint(0,ends[1]);
+                break;
+        }
+        centerIntersection.waypoint = sdcWaypoint(0,std::pair<double,double>(52.5,45));
+    }else if(this->y > 46 && this->y < 50){ //WEST
+        switch(turnType){
+            case 0:
+                destIntersection.waypoint = sdcWaypoint(0,ends[1]);
+                break;
+            case 1:
+                destIntersection.waypoint = sdcWaypoint(0,ends[0]);
+                break;
+            case 2:
+                destIntersection.waypoint = sdcWaypoint(0,ends[2]);
+                break;
+        }
         centerIntersection.waypoint = sdcWaypoint(0,std::pair<double,double>(45,48));
-        centerIntersection.waypoint.waypointType = 1;
     }
     else{
         printf("woops");
         fflush(stdout);
     }
-
+    
+   
+    centerIntersection.waypoint.waypointType = turnType;
+    destIntersection.waypoint.waypointType = 3;
     centerIntersection.waypoint.hasReservation = false;
     //make the distance to all intersections infinity
+    printf("centerWPtype: %i\n", centerIntersection.waypoint.waypointType);
     intersections = {destIntersection, centerIntersection};
     for (int i = 0; i < intersections.size(); ++i) {
         intersections[i].dist = std::numeric_limits<double>::infinity();
@@ -551,71 +484,15 @@ void sdcCar::initializeGraph() {
     printf("end of graph\n");
 }
 
-int sdcCar::getFirstIntersection(){
-//    std::pair<double,double> firstIntr;
-//    int firstIntersection;
-//
-//    switch(this->currentDir){
-//
-//        case west:
-//            firstIntr = {-1000,0};
-//            for(int i = 0; i < intersections.size();++i){
-//                if(this->y < intersections[i].waypoint.pos.second+5 && this->y > intersections[i].waypoint.pos.second-5 && intersections[i].waypoint.pos.first < this->x - 10 && intersections[i].waypoint.pos.first > firstIntr.first)
-//                    firstIntr = intersections[i].waypoint.pos;
-//            }
-//            break;
-//
-//        case east:
-//            firstIntr = {1000,0};
-//            for(int i = 0; i < intersections.size();++i){
-//                if(this->y < intersections[i].waypoint.pos.second+5 && this->y > intersections[i].waypoint.pos.second-5 && intersections[i].waypoint.pos.first > this->x + 10 && intersections[i].waypoint.pos.first < firstIntr.first){
-//                    firstIntr = intersections[i].waypoint.pos;
-//                }
-//            }
-//            break;
-//
-//        case north:
-//            firstIntr = {0,1000};
-//            for(int i = 0; i < intersections.size();++i){
-//                if(this->x < intersections[i].waypoint.pos.first+5 && this->x > intersections[i].waypoint.pos.first-5 && intersections[i].waypoint.pos.second > this->y + 10 && intersections[i].waypoint.pos.second < firstIntr.second)
-//                    firstIntr = intersections[i].waypoint.pos;
-//            }
-//            break;
-//
-//        case south:
-//            firstIntr = {0,-1000};
-//            for(int i = 0; i < intersections.size();++i){
-//                if(this->x < intersections[i].waypoint.pos.first+5 && this->x > intersections[i].waypoint.pos.first-5 && intersections[i].waypoint.pos.second < this->y - 10 && intersections[i].waypoint.pos.second > firstIntr.second)
-//                    firstIntr = intersections[i].waypoint.pos;
-//            }
-//            break;
-//    }
-//    printf("size of intrs: %i",intersections.size());
-//    fflush(stdout);
-//    for(int i = 0; i < intersections.size();i++){
-//        printf("i outside: %i", i);
-//        fflush(stdout);
-//        if(firstIntr.first == intersections[i].waypoint.pos.first && firstIntr.second == intersections[i].waypoint.pos.second){
-//            firstIntersection = i;
-//            printf("i inside: %i", i);
-//            fflush(stdout);
-//            break;
-//        }
-//    }
-    return 0;
-}
-
-void sdcCar::insertWaypointTypes(std::vector<int> path, Direction startDir) {
+void sdcCar::insertWaypointTypes(Direction startDir) {
     Direction curDir = startDir;
     int nextDir = intersections[1].waypoint.waypointType;
     printf("nextDir: %i", nextDir);
-    int current;
-    int next;
+    int current = 1;
+    int next = 0;
   // get the direction the car heads in from the current intersection to
   // the next one
-  for (int i = path.size() - 1; i > 0; i--) {
-    current = path[i];
-    next = path[i - 1];
+    // 0 = straight, 1 = left, 2 = right, 3 = stop
     switch (curDir) {
       case north:
         printf("north\n");
@@ -684,16 +561,21 @@ void sdcCar::insertWaypointTypes(std::vector<int> path, Direction startDir) {
         break;
     }
     //curDir = nextDir;
-  }
-  intersections[path[0]].waypoint.waypointType = WaypointType_Stop;
+  
+  //intersections[path[0]].waypoint.waypointType = WaypointType_Stop;
 }
 
 
 ////////////////////
 // HELPER METHODS //
 ////////////////////
+int sdcCar::genRand(int max) {
+    srand (time(NULL));
+//    std::default_random_engine generator;
+//    std::uniform_int_distribution<int> distribution(0, max);
+    return rand() % max;
 
-
+}
 /*
  * Updates the list of objects in front of the car with the given list of new objects
  */
@@ -1044,31 +926,36 @@ void sdcCar::OnUpdate()
 //     Get the current velocity of the car
     if(this->inIntersection){
         //if outside intersection
-        printf("direction: %i\n", this->destDirection);
+        //printf("direction: %i\n", this->destDirection);
         fflush(stdout);
         switch (this->destDirection) {
+                //0 = north, 1 = east, 2 = south, 3 = west
             case 0:
                 if(this->y > 55){
                     manager::stopSignCarLeft(this->carId);
                     this->inIntersection = false;
+                    printf("exited north\n");
                 }
                 break;
             case 1:
                 if(this->x  > 55){
                     manager::stopSignCarLeft(this->carId);
                     this->inIntersection = false;
+                    printf("exited east\n");
                 }
                 break;
             case 2:
                 if(this->y < 45){
                     manager::stopSignCarLeft(this->carId);
                     this->inIntersection = false;
+                    printf("exited south\n");
                 }
                 break;
             case 3:
                 if(this->x < 45 ){
                     manager::stopSignCarLeft(this->carId);
                     this->inIntersection = false;
+                    printf("exited west\n");
                 }
                 break;
         }
@@ -1174,6 +1061,8 @@ void sdcCar::OnUpdate()
  */
 sdcCar::sdcCar(){
     //manager::registerCar(carId++);
+    this->carIdCount ++;
+    this->carId = this->carIdCount;
     this->inIntersection = false;
     this->destDirection = -1;
     this->sensorData = sdcSensorData();

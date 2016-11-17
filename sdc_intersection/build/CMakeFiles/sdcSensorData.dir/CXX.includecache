@@ -6,23 +6,23 @@
 
 #IncludeRegexTransform: 
 
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcAngle.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcAngle.hh
 math.h
 -
 iostream
 -
 
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcLidarRay.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcLidarRay.hh
 gazebo/common/common.hh
 -
 sdcAngle.hh
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcAngle.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcAngle.hh
 
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcLidarSensorInfo.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcLidarSensorInfo.hh
 sdcAngle.hh
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcAngle.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcAngle.hh
 
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcSensorData.cc
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcSensorData.cc
 boost/bind.hpp
 -
 gazebo/gazebo.hh
@@ -38,9 +38,9 @@ stdio.h
 vector
 -
 sdcSensorData.hh
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcSensorData.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcSensorData.hh
 
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcSensorData.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcSensorData.hh
 boost/bind.hpp
 -
 gazebo/gazebo.hh
@@ -58,21 +58,21 @@ vector
 map
 -
 sdcAngle.hh
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcAngle.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcAngle.hh
 sdcLidarSensorInfo.hh
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcLidarSensorInfo.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcLidarSensorInfo.hh
 sdcLidarRay.hh
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcLidarRay.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcLidarRay.hh
 sdcVisibleObject.hh
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcVisibleObject.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcVisibleObject.hh
 
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcVisibleObject.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcVisibleObject.hh
 gazebo/common/common.hh
 -
 sdcAngle.hh
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcAngle.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcAngle.hh
 sdcLidarRay.hh
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcLidarRay.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcLidarRay.hh
 
 /usr/local/Cellar/gazebo6/6.6.0/include/gazebo-6.6/gazebo/Master.hh
 string

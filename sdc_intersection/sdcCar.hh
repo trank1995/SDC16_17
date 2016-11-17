@@ -21,9 +21,10 @@
 #include <string>
 #include <vector>
 #include <exception>
-#include <cstdlib>
-#include <ctime>
 
+#include <stdlib.h>
+#include <time.h>
+#include <random>
 #include "gazebo/common/Plugin.hh"
 #include "gazebo/physics/physics.hh"
 #include "gazebo/transport/transport.hh"
@@ -179,7 +180,8 @@ namespace gazebo {
         int frontLidarLastUpdate;
 
         // The x and y position of the car
-        static int carId;
+        int carId;
+        static int carIdCount;
         double x;
         double y;
 
@@ -196,10 +198,7 @@ namespace gazebo {
         //Dijkstra Methods
         void GenerateWaypoints();
         void initializeGraph();
-        int getFirstIntersection();
-        void removeStartingEdge(int start);
-        std::vector<int> dijkstras(int start, int dest);
-        void insertWaypointTypes(std::vector<int> path, Direction startDir);
+        void insertWaypointTypes(Direction startDir);
 
         // Driving algorithms
         void LanedDriving();
@@ -211,6 +210,7 @@ namespace gazebo {
         void ParallelPark();
 
         // Helper methods
+        int genRand(int max);
         void FrontLidarUpdate();
         void UpdateFrontObjects(std::vector<sdcVisibleObject> newObjects);
 

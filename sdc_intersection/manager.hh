@@ -13,12 +13,15 @@ class manager{
         manager(int id);
         int id;
         void printid();
-        static void registerCar(int carId);
-        static bool stopSignHandleRequest(int carId, double x, double y, int direction);
+    static void registerCar(int carId, int turning, int direction);
+        static bool stopSignHandleRequest(int carId, int turning, int direction);
         static void stopSignCarLeft(int carId);
     private:
         static int carAmt;
         static std::vector<int> carList;
+        static int currentDir; //0 north, 1 east, 2 south, 3 west
+        static int currentTurn; // 0 straight, 1 left, 2 right
+
     
 };
 #endif

@@ -48,10 +48,10 @@ RM = /usr/local/Cellar/cmake/3.6.2/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Accounts/mawbye/Desktop/SDC16_17/sdc_intersection
+CMAKE_SOURCE_DIR = /Accounts/trank/Desktop/SDC16_17/sdc_intersection
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/build
+CMAKE_BINARY_DIR = /Accounts/trank/Desktop/SDC16_17/sdc_intersection/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles /Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles /Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Accounts/trank/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target

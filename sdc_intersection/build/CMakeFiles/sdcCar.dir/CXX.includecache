@@ -6,73 +6,75 @@
 
 #IncludeRegexTransform: 
 
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/instruction.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/instruction.hh
 iostream
 -
 
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/manager.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/manager.hh
 iostream
 -
 vector
 -
 request.hh
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/request.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/request.hh
 instruction.hh
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/instruction.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/instruction.hh
 
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/request.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/request.hh
 iostream
 -
 
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcAngle.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcAngle.hh
 math.h
 -
 iostream
 -
 
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcCar.cc
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcCar.cc
 gazebo/physics/physics.hh
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/gazebo/physics/physics.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/gazebo/physics/physics.hh
 gazebo/transport/transport.hh
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/gazebo/transport/transport.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/gazebo/transport/transport.hh
 sdcCar.hh
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcCar.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcCar.hh
 
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcCar.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcCar.hh
 string
 -
 vector
 -
 exception
 -
-cstdlib
+stdlib.h
 -
-ctime
+time.h
+-
+random
 -
 gazebo/common/Plugin.hh
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/gazebo/common/Plugin.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/gazebo/common/Plugin.hh
 gazebo/physics/physics.hh
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/gazebo/physics/physics.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/gazebo/physics/physics.hh
 gazebo/transport/transport.hh
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/gazebo/transport/transport.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/gazebo/transport/transport.hh
 gazebo/util/system.hh
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/gazebo/util/system.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/gazebo/util/system.hh
 sdcSensorData.hh
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcSensorData.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcSensorData.hh
 sdcAngle.hh
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcAngle.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcAngle.hh
 sdcWaypoint.hh
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcWaypoint.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcWaypoint.hh
 sdcIntersection.hh
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcIntersection.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcIntersection.hh
 manager.hh
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/manager.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/manager.hh
 request.hh
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/request.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/request.hh
 instruction.hh
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/instruction.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/instruction.hh
 
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcIntersection.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcIntersection.hh
 vector
 -
 iostream
@@ -80,19 +82,19 @@ iostream
 limits
 -
 sdcWaypoint.hh
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcWaypoint.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcWaypoint.hh
 
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcLidarRay.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcLidarRay.hh
 gazebo/common/common.hh
 -
 sdcAngle.hh
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcAngle.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcAngle.hh
 
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcLidarSensorInfo.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcLidarSensorInfo.hh
 sdcAngle.hh
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcAngle.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcAngle.hh
 
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcSensorData.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcSensorData.hh
 boost/bind.hpp
 -
 gazebo/gazebo.hh
@@ -110,23 +112,23 @@ vector
 map
 -
 sdcAngle.hh
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcAngle.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcAngle.hh
 sdcLidarSensorInfo.hh
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcLidarSensorInfo.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcLidarSensorInfo.hh
 sdcLidarRay.hh
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcLidarRay.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcLidarRay.hh
 sdcVisibleObject.hh
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcVisibleObject.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcVisibleObject.hh
 
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcVisibleObject.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcVisibleObject.hh
 gazebo/common/common.hh
 -
 sdcAngle.hh
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcAngle.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcAngle.hh
 sdcLidarRay.hh
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcLidarRay.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcLidarRay.hh
 
-/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcWaypoint.hh
+/Accounts/trank/Desktop/SDC16_17/sdc_intersection/sdcWaypoint.hh
 iostream
 -
 vector
