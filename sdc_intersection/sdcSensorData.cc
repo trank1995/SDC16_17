@@ -60,6 +60,7 @@ sdcSensorData::sdcSensorData() {
 }
 
 void sdcSensorData::InitLidar(LidarPos lidar, double minAngle, double angleResolution, double maxRange, int numRays){
+    printf("init lidar\n");
     switch (lidar) {
         case TOP:
         case SIDE_LEFT:
@@ -76,8 +77,10 @@ void sdcSensorData::InitLidar(LidarPos lidar, double minAngle, double angleResol
  */
 void sdcSensorData::UpdateLidar(LidarPos lidar, std::vector<double>* newRays){
     lidarInfoMap[lidar].lastUpdate = (lidarInfoMap[lidar].lastUpdate + 1) % 100000000;
+    printf("created new lidar rays\n");
     switch (lidar) {
         case FRONT:
+            
         this->frontLidarRays = newRays;
         break;
 
@@ -250,6 +253,8 @@ std::vector<double> sdcSensorData::GetLidarRays(LidarPos lidar){
  */
 std::vector<sdcLidarRay> sdcSensorData::GetBlockedFrontRays(){
     std::vector<sdcLidarRay> objectsInFront;
+  //  printf("frontLidarRays.size: %lu\n", frontLidarRays->size());
+    fflush(stdout);
     for (int i = 0; i < frontLidarRays->size(); i++) {
         if (!std::isinf((*frontLidarRays)[i])) {
             sdcAngle angle = sdcAngle(lidarInfoMap[FRONT].minAngle + i*lidarInfoMap[FRONT].resolution);
@@ -283,7 +288,10 @@ std::vector<sdcVisibleObject> sdcSensorData::GetObjectsInFront(){
 
     // With no blocked rays, there are no objects to record
     std::vector<sdcLidarRay> blockedRays = GetBlockedFrontRays();
-    if(blockedRays.size() == 0) return objectList;
+    if(blockedRays.size() == 0){
+       // printf("no blocked rays\n");
+        return objectList;
+    }
 
     double distMargin = 1;
     double angleMargin = 0.01;
@@ -298,6 +306,7 @@ std::vector<sdcVisibleObject> sdcSensorData::GetObjectsInFront(){
 
     // Parse the blocked rays into separate objects
     for (int i = 0; i < blockedRays.size(); i++) {
+       // printf("checking blocked rays\n");
         sdcAngle curAngle = blockedRays[i].angle;
         double curDist = blockedRays[i].dist;
 

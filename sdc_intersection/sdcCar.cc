@@ -91,26 +91,28 @@ void sdcCar::Drive()
 
 //     If not in avoidance, check if we should start following the thing
 //     in front of us. If following is done, kick out to default state
-//    if(this->currentState != intersection && this->currentState != avoidance){
-//        // If there's a stop sign, assume we're at an intersection
+    if(this->currentState != intersection && this->currentState != avoidance){
+        //printf("in if\n");
+        // If there's a stop sign, assume we're at an intersection
 //        if(this->ignoreStopSignsCounter == 0 && sdcSensorData::stopSignFrameCount > 5){
 //            this->currentState = intersection;
 //        }
-//
-//        // If something is ahead of us, default to trying to follow it
-//        if (this->ObjectDirectlyAhead()){
-//            this->currentState = follow;
-//        }else if(this->currentState == follow && !this->isTrackingObject){
-//            this->currentState = DEFAULT_STATE;;
-//        }
-//
-//        // Look for objects in danger of colliding with us, react appropriately
-//        if (this->ObjectOnCollisionCourse()){
-//            this->currentState = avoidance;
-//        }
-//    }
 
-    this->ignoreStopSignsCounter = fmax(this->ignoreStopSignsCounter - 1, 0);
+        // If something is ahead of us, default to trying to follow it
+        if (this->ObjectDirectlyAhead()){
+            printf("currentstate = follow\n");
+            this->currentState = follow;
+        }else if(this->currentState == follow && !this->isTrackingObject){
+            this->currentState = waypoint;;
+        }
+
+        // Look for objects in danger of colliding with us, react appropriately
+        if (this->ObjectOnCollisionCourse()){
+            this->currentState = avoidance;
+        }
+    }
+
+    //this->ignoreStopSignsCounter = fmax(this->ignoreStopSignsCounter - 1, 0);
 
 
     // Possible states: stop, waypoint, intersection, follow, avoidance
@@ -153,14 +155,15 @@ void sdcCar::Drive()
 
         // Follows object that is going in same direction/towards same target
         case follow:
-//            this->Follow();
+      //      printf("following\n");
+        //    this->Follow();
 //         Handle lane driving
         break;
 
         // Smarter way to avoid objects; stopping, swerving, etc.
         case avoidance:
         // Cases: stop, swerve, go around
-            //this->Avoidance();
+//            this->Avoidance();
         break;
 
         // Parks the car
@@ -229,6 +232,86 @@ void sdcCar::MatchTargetSpeed(){
     }
 }
 
+//void sdcCar::Follow() {
+//    // There's nothing in front of the car, so break out of follow
+//    if(this->frontObjects.size() == 0){
+//        this->isTrackingObject = false;
+//        this->currentState = DEFAULT_STATE;
+//        return;
+//    }
+//    
+//    // The default object to follow is directly in front of the car, the max range away
+////    sdcVisibleObject tracked = sdcVisibleObject(sdcLidarRay(0, sdcSensorData::GetLidarMaxRange(FRONT)), sdcLidarRay(0, sdcSensorData::GetLidarMaxRange(FRONT)), sdcSensorData::GetLidarMaxRange(FRONT));
+//    sdcVisibleObject tracked;
+//    
+//    // Already tracking an object, find it again
+//    if(this->isTrackingObject){
+//        bool foundTrackedObject = false;
+//        for(int i = 0; i < this->frontObjects.size(); i++){
+//            sdcVisibleObject obj = this->frontObjects[i];
+//            if(obj.IsTracking()){
+//                tracked = obj;
+//                foundTrackedObject = true;
+//                break;
+//            }
+//        }
+//        if(!foundTrackedObject){
+//            this->isTrackingObject = false;
+//            return;
+//        }
+//    }else{
+//        // Not tracking an object, find one that's in front of the car
+//        // and start tracking it
+//        for(int i = 0; i < this->frontObjects.size(); i++){
+//            sdcVisibleObject obj = this->frontObjects[i];
+//            if(this->IsObjectDirectlyAhead(obj)){
+//                tracked = obj;
+//                tracked.SetTracking(true);
+//                this->isTrackingObject = true;
+//                this->frontObjects[i] = tracked;
+//                break;
+//            }
+//        }
+//    }
+//    
+//    // After the above loops, if not following anything just return
+//    if(!this->isTrackingObject) return;
+//    
+//    math::Vector2d objCenter = tracked.GetCenterPoint();
+//    double objSpeed = tracked.GetEstimatedYSpeed();
+//    
+//    // Scale our speed based on how far away the tracked object is
+//    // The equation is 'scaledSpeed = (objY - 10)^3 / 2000.' which
+//    // gives a scaled speed of 0 at y=10 and +-0.5 at y=20, y=0 respectively
+//    double scaledSpeed = pow(objCenter.y - 10, 3) / 2000.;
+//    
+//    // Adjust the target speed based on the speed of the object, our speed,
+//    // and the above calculated scaled speed
+//    double newTargetSpeed = objSpeed + this->GetSpeed() + scaledSpeed;
+//    this->SetTargetSpeed(newTargetSpeed);
+//    
+//    // If the new target speed is sufficiently low, count the car as stationary
+//    if(newTargetSpeed < 0.3){
+//        this->stationaryCount++;
+//    }else{
+//        this->stationaryCount = 0;
+//    }
+//    
+//    // If the car has been stationary for sufficiently long, stop following and start
+//    // trying to navigate around the object in front of it
+//    if(this->stationaryCount > 2000){
+//        this->currentState = avoidance;
+//        this->currentAvoidanceState = navigation;
+//    }
+//    
+//    // Set the direction of the car to be angled at the tracked object
+//    if(objCenter.x != 0){
+//        this->SetTargetDirection(this->GetOrientation() - sdcAngle(PI / 2.) + sdcAngle(atan2(objCenter.y, objCenter.x)));
+//    }else{
+//        this->SetTargetDirection(this->GetOrientation());
+//    }
+//}
+//
 /*
  * Drive from point to point in the given list
  */
@@ -570,10 +653,20 @@ void sdcCar::insertWaypointTypes(Direction startDir) {
 // HELPER METHODS //
 ////////////////////
 int sdcCar::genRand(int max) {
-    srand (time(NULL));
+   
 //    std::default_random_engine generator;
 //    std::uniform_int_distribution<int> distribution(0, max);
-    return rand() % max;
+    int randval = rand() %max;
+    printf("randVal: %i\n", randval);
+    int num;
+    std::vector<int>randNumbs;
+    for (int i = 0; i < 4; i++){
+         num = rand() % max;
+        randNumbs.push_back(num);
+    }
+    printf("randnums: %i\n", randNumbs[carId-1]);
+    fflush(stdout);
+    return randNumbs[carId-1];
 
 }
 /*
@@ -692,10 +785,13 @@ sdcAngle sdcCar::AngleToTarget(math::Vector2d target) {
  * continue driving straight ahead
  */
 bool sdcCar::ObjectDirectlyAhead() {
-    if(this->frontObjects.size() == 0) return false;
+    if(this->frontObjects.size() == 0){
+        return false;
+    }
 
     for (int i = 0; i < this->frontObjects.size(); i++) {
         if(this->IsObjectDirectlyAhead(this->frontObjects[i])){
+            printf("object is ahead\n");
             return true;
         }
     }
@@ -883,6 +979,8 @@ void sdcCar::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     this->frontPower = _sdf->Get<double>("front_power");
     this->rearPower = _sdf->Get<double>("rear_power");
     this->wheelRadius = _sdf->Get<double>("wheel_radius");
+    //this->frontSensor = this->model->GetLink(_sdf->Get<std::string>("front_lidar"));
+    
 
     // Tell Gazebo to call OnUpdate whenever the car needs an update
     this->connections.push_back(event::Events::ConnectWorldUpdateBegin(boost::bind(&sdcCar::OnUpdate, this)));
@@ -893,10 +991,10 @@ void sdcCar::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
  */
 void sdcCar::Init()
 {
-    printf("started init");
+    //printf("started init");
 //    destinations[0] = {48,10};
 //    destinations[1] = {90,48};
-    printf("created destinations");
+   // printf("created destinations");
     // Compute the angle ratio between the steering wheel and the tires
     this->steeringRatio = STEERING_RANGE / this->tireAngleRange;
 
@@ -906,7 +1004,12 @@ void sdcCar::Init()
     this->yaw = sdcAngle(pose.rot.GetYaw());
     this->x = pose.pos.x;
     this->y = pose.pos.y;
+    sdcSensorData::sdcSensorData();
     
+    time_t seconds;
+    srand ((unsigned)time(&seconds));
+    //this->sensorData.InitLidar(LidarPos lidar, double minAngle, double angleResolution, double maxRange, int numRays);
+    //sdcFrontLidarSensor::Load(sensors::SensorPtr _sensor, sdf::ElementPtr /*_sdf*/);
     GenerateWaypoints();
 }
 
@@ -927,7 +1030,7 @@ void sdcCar::OnUpdate()
     if(this->inIntersection){
         //if outside intersection
         //printf("direction: %i\n", this->destDirection);
-        fflush(stdout);
+       // fflush(stdout);
         switch (this->destDirection) {
                 //0 = north, 1 = east, 2 = south, 3 = west
             case 0:
@@ -975,7 +1078,10 @@ void sdcCar::OnUpdate()
     // Check if the front lidars have been updated, and if they have update
     // the car's list
     if(this->frontLidarLastUpdate != this->sensorData.GetLidarLastUpdate(FRONT)){
+        //printf("updating front objects\n");
         std::vector<sdcVisibleObject> v = this->sensorData.GetObjectsInFront();
+        //printf("visibleobjects size: %lu\n", v.size());
+        fflush(stdout);
         this->UpdateFrontObjects(v);
         this->frontLidarLastUpdate = this->sensorData.GetLidarLastUpdate(FRONT);
     }
@@ -1066,6 +1172,7 @@ sdcCar::sdcCar(){
     this->inIntersection = false;
     this->destDirection = -1;
     this->sensorData = sdcSensorData();
+    //this->frontSensor = sdcFrontLidarSensor();
     this->joints.resize(4);
 
     // Physics variables

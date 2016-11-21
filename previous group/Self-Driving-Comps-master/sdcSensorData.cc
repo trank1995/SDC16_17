@@ -239,6 +239,7 @@ std::vector<double> sdcSensorData::GetLidarRays(LidarPos lidar){
  * Return a vector of pairs (ray angle, ray length) which represents objects in view of front lidar
  */
 std::vector<sdcLidarRay> sdcSensorData::GetBlockedFrontRays(){
+    printf("rays.size: %lu\n",frontLidarRays->size());
     std::vector<sdcLidarRay> objectsInFront;
     for (int i = 0; i < frontLidarRays->size(); i++) {
         if (!std::isinf((*frontLidarRays)[i])) {

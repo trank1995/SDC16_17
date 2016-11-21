@@ -7,6 +7,7 @@ CMakeFiles/sdcCar.dir/sdcCar.cc.o: ../request.hh
 CMakeFiles/sdcCar.dir/sdcCar.cc.o: ../sdcAngle.hh
 CMakeFiles/sdcCar.dir/sdcCar.cc.o: ../sdcCar.cc
 CMakeFiles/sdcCar.dir/sdcCar.cc.o: ../sdcCar.hh
+CMakeFiles/sdcCar.dir/sdcCar.cc.o: ../sdcFrontLidarSensor.hh
 CMakeFiles/sdcCar.dir/sdcCar.cc.o: ../sdcIntersection.hh
 CMakeFiles/sdcCar.dir/sdcCar.cc.o: ../sdcLidarRay.hh
 CMakeFiles/sdcCar.dir/sdcCar.cc.o: ../sdcLidarSensorInfo.hh

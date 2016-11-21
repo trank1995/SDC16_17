@@ -33,6 +33,7 @@
 #include "sdcAngle.hh"
 #include "sdcWaypoint.hh"
 #include "sdcIntersection.hh"
+#include "sdcFrontLidarSensor.hh"
 #include "manager.hh"
 #include "request.hh"
 #include "instruction.hh"
@@ -72,6 +73,7 @@ namespace gazebo {
         //sensorData object
         sdcSensorData sensorData;
         
+        //sdcFrontLidarSensor frontSensor;
 
         // These variables are mostly set in the SDF for the car and relate to the
         // physical parameters of the vehicle

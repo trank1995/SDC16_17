@@ -30,7 +30,7 @@
 #include "sdcAngle.hh"
 #include "sdcWaypoint.hh"
 #include "sdcIntersection.hh"
-#include "manager.hh"
+
 
 
 namespace gazebo {
