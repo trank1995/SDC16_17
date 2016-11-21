@@ -408,7 +408,7 @@ void sdcCar::GridTurning(int turn){
                // printf("waypointvec[0].x: %f\n", WAYPOINT_VEC[progress].pos.second);
                 
                 //fflush(stdout);
-                if(manager::stopSignHandleRequest(carId, WAYPOINT_VEC[progress].waypointType, this->destDirection)){
+                if(manager::stopSignHandleRequest(carId, WAYPOINT_VEC[progress].waypointType, this->destDirection, this->fromDir)){
                     WAYPOINT_VEC[progress].hasReservation = true;
                     this->inIntersection = true;
                     printf("got reservation\n");
@@ -416,6 +416,13 @@ void sdcCar::GridTurning(int turn){
                     fflush(stdout);
                 }
             }
+            if(!laneStopped){
+                printf("lanestop request\n\n\n");
+                printf("fromDir: %i\n\n", this->fromDir);
+                manager::laneStopRequest(this->fromDir);
+                laneStopped = true;
+            }
+            
             this->Stop();
             
             //car sends reservation request when velocity is below threshold
@@ -441,13 +448,18 @@ void sdcCar::GridTurning(int turn){
         }
         else{
             if(GetSpeed() < .1){
-                if(manager::stopSignHandleRequest(carId, WAYPOINT_VEC[progress].waypointType, this->destDirection)){
+                if(manager::stopSignHandleRequest(carId, WAYPOINT_VEC[progress].waypointType, this->destDirection, this->fromDir)){
                     WAYPOINT_VEC[progress].hasReservation = true;
                     inIntersection = true;
                     printf("got reservation\n");
                     printf("destDirection: %i\n", this->destDirection);
                     fflush(stdout);
                 }
+            }
+            if(!laneStopped){
+                printf("lanestop request\n\n\n");
+                manager::laneStopRequest(this->fromDir);
+                laneStopped = true;
             }
             this->Stop();
             return;
@@ -492,6 +504,8 @@ void sdcCar::initializeGraph() {
         fflush(stdout);
         //right turns first dest is 3 past intersection
         //left turns first dest is 7 past intersection
+        manager::stopSignQueue(carId, 0);
+        this->fromDir = 0;
         switch(turnType){
             case 0:
                 destIntersection.waypoint = sdcWaypoint(0,ends[2]);
@@ -507,7 +521,10 @@ void sdcCar::initializeGraph() {
         
     }
     else if(this->y > 50 && this->y < 54){ //EAST
+        manager::stopSignQueue(carId, 1);
+        this->fromDir = 1;
         switch(turnType){
+        
             case 0:
                 destIntersection.waypoint = sdcWaypoint(0,ends[3]);
                 break;
@@ -522,6 +539,8 @@ void sdcCar::initializeGraph() {
     }
     
     else if(this->x > 50 && this->x < 54){ //SOUTH
+        manager::stopSignQueue(carId, 2);
+        this->fromDir = 2;
         switch(turnType){
             case 0:
                 destIntersection.waypoint = sdcWaypoint(0,ends[0]);
@@ -535,6 +554,8 @@ void sdcCar::initializeGraph() {
         }
         centerIntersection.waypoint = sdcWaypoint(0,std::pair<double,double>(52.5,45));
     }else if(this->y > 46 && this->y < 50){ //WEST
+        manager::stopSignQueue(carId, 3);
+        this->fromDir = 3;
         switch(turnType){
             case 0:
                 destIntersection.waypoint = sdcWaypoint(0,ends[1]);
@@ -594,6 +615,22 @@ void sdcCar::insertWaypointTypes(Direction startDir) {
             
         }
         break;
+    case east:
+            printf("east\n");
+            switch (nextDir) {
+                case 1:
+                    this->destDirection = 0;
+                    break;
+                case 2:
+                    this->destDirection = 2;
+                    break;
+                case 0:
+                    this->destDirection = 1;
+                    break;
+                case 3:
+                    break;
+            }
+            break;
       case south:
         printf("south");
         switch (nextDir) {
@@ -610,22 +647,7 @@ void sdcCar::insertWaypointTypes(Direction startDir) {
                 break;
         }
         break;
-      case east:
-        printf("east\n");
-        switch (nextDir) {
-            case 1:
-                this->destDirection = 0;
-                break;
-            case 2:
-                this->destDirection = 2;
-                break;
-            case 0:
-                this->destDirection = 1;
-                break;
-            case 3:
-                break;
-        }
-        break;
+      
       case west:
         printf("west");
         switch (nextDir) {
@@ -656,17 +678,18 @@ int sdcCar::genRand(int max) {
    
 //    std::default_random_engine generator;
 //    std::uniform_int_distribution<int> distribution(0, max);
-    int randval = rand() %max;
-    printf("randVal: %i\n", randval);
     int num;
     std::vector<int>randNumbs;
-    for (int i = 0; i < 4; i++){
-         num = rand() % max;
+    for (int i = 0; i < 10000; i++){
+        num = rand() % (max+1);
+//        if(num == 2){
+//            printf("2\n");
+//        }
         randNumbs.push_back(num);
     }
-    printf("randnums: %i\n", randNumbs[carId-1]);
+    //printf("randnums: %i\n", randNumbs[carId-1]);
     fflush(stdout);
-    return randNumbs[carId-1];
+    return randNumbs[carId*100];
 
 }
 /*
@@ -997,7 +1020,7 @@ void sdcCar::Init()
    // printf("created destinations");
     // Compute the angle ratio between the steering wheel and the tires
     this->steeringRatio = STEERING_RANGE / this->tireAngleRange;
-
+    this->laneStopped = false;
     // During init, sensors aren't available so pull position and rotation information
     // straight from the car
     math::Pose pose = this->chassis->GetWorldPose();
@@ -1005,6 +1028,7 @@ void sdcCar::Init()
     this->x = pose.pos.x;
     this->y = pose.pos.y;
     sdcSensorData::sdcSensorData();
+    this->toldToStop = false;
     
     time_t seconds;
     srand ((unsigned)time(&seconds));
@@ -1027,6 +1051,22 @@ void sdcCar::OnUpdate()
 //    }
 //    
 //     Get the current velocity of the car
+
+    if(manager::shouldStop(carId, fromDir)){
+        if(!laneStopped){
+            //printf("told to stop\n");
+            this->currentState = stop;
+            this->toldToStop = true;
+        }
+    }
+    else{
+        if(this->toldToStop){
+            this->currentState = waypoint;
+            this->toldToStop = false;
+        }
+    }
+    
+    
     if(this->inIntersection){
         //if outside intersection
         //printf("direction: %i\n", this->destDirection);

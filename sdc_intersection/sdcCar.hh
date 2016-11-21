@@ -182,7 +182,10 @@ namespace gazebo {
         int frontLidarLastUpdate;
 
         // The x and y position of the car
+        bool laneStopped;
         int carId;
+        int fromDir;
+        bool toldToStop;
         static int carIdCount;
         double x;
         double y;
