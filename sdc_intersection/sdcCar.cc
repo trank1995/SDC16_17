@@ -680,7 +680,7 @@ int sdcCar::genRand(int max) {
 //    std::uniform_int_distribution<int> distribution(0, max);
     int num;
     std::vector<int>randNumbs;
-    for (int i = 0; i < 10000; i++){
+    for (int i = 0; i < 1000; i++){
         num = rand() % (max+1);
 //        if(num == 2){
 //            printf("2\n");
