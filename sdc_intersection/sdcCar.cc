@@ -335,8 +335,16 @@ void sdcCar::WaypointDriving(std::vector<sdcWaypoint> WAYPOINT_VEC) {
             this->turning = true;
         }
         if(this->turning == true){
-            //printf("in turning\n");
-            this->SetTurningLimit(20);
+            
+            
+            //USE SPEED TO DETERMINE TURNING LIM
+            if (WAYPOINT_VEC[progress].waypointType == 1) {
+                //LEFT
+                this->SetTurningLimit(this->GetSpeed()*6);
+            } else if(WAYPOINT_VEC[progress].waypointType == 2) {
+                //RIGHT
+                this->SetTurningLimit(this->GetSpeed()*19);
+            }
             GridTurning(WAYPOINT_VEC[progress].waypointType);
         } else {
             math::Vector2d nextTarget = {WAYPOINT_VEC[progress].pos.first,WAYPOINT_VEC[progress].pos.second};
