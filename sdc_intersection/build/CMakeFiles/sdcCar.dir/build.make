@@ -90,7 +90,6 @@ sdcCar_EXTERNAL_OBJECTS =
 
 libsdcCar.dylib: CMakeFiles/sdcCar.dir/sdcCar.cc.o
 libsdcCar.dylib: CMakeFiles/sdcCar.dir/build.make
-libsdcCar.dylib: libsdcManager.dylib
 libsdcCar.dylib: libmanager.dylib
 libsdcCar.dylib: libsdcWaypoint.dylib
 libsdcCar.dylib: libsdcSensorData.dylib

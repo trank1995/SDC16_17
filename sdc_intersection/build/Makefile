@@ -150,45 +150,6 @@ sdcSensorData/fast:
 .PHONY : sdcSensorData/fast
 
 #=============================================================================
-# Target rules for targets named sdcVisibleObject
-
-# Build rule for target.
-sdcVisibleObject: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 sdcVisibleObject
-.PHONY : sdcVisibleObject
-
-# fast build rule for target.
-sdcVisibleObject/fast:
-	$(MAKE) -f CMakeFiles/sdcVisibleObject.dir/build.make CMakeFiles/sdcVisibleObject.dir/build
-.PHONY : sdcVisibleObject/fast
-
-#=============================================================================
-# Target rules for targets named sdcIntersection
-
-# Build rule for target.
-sdcIntersection: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 sdcIntersection
-.PHONY : sdcIntersection
-
-# fast build rule for target.
-sdcIntersection/fast:
-	$(MAKE) -f CMakeFiles/sdcIntersection.dir/build.make CMakeFiles/sdcIntersection.dir/build
-.PHONY : sdcIntersection/fast
-
-#=============================================================================
-# Target rules for targets named sdcManager
-
-# Build rule for target.
-sdcManager: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 sdcManager
-.PHONY : sdcManager
-
-# fast build rule for target.
-sdcManager/fast:
-	$(MAKE) -f CMakeFiles/sdcManager.dir/build.make CMakeFiles/sdcManager.dir/build
-.PHONY : sdcManager/fast
-
-#=============================================================================
 # Target rules for targets named manager
 
 # Build rule for target.
@@ -226,6 +187,32 @@ instruction: cmake_check_build_system
 instruction/fast:
 	$(MAKE) -f CMakeFiles/instruction.dir/build.make CMakeFiles/instruction.dir/build
 .PHONY : instruction/fast
+
+#=============================================================================
+# Target rules for targets named sdcVisibleObject
+
+# Build rule for target.
+sdcVisibleObject: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 sdcVisibleObject
+.PHONY : sdcVisibleObject
+
+# fast build rule for target.
+sdcVisibleObject/fast:
+	$(MAKE) -f CMakeFiles/sdcVisibleObject.dir/build.make CMakeFiles/sdcVisibleObject.dir/build
+.PHONY : sdcVisibleObject/fast
+
+#=============================================================================
+# Target rules for targets named sdcIntersection
+
+# Build rule for target.
+sdcIntersection: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 sdcIntersection
+.PHONY : sdcIntersection
+
+# fast build rule for target.
+sdcIntersection/fast:
+	$(MAKE) -f CMakeFiles/sdcIntersection.dir/build.make CMakeFiles/sdcIntersection.dir/build
+.PHONY : sdcIntersection/fast
 
 #=============================================================================
 # Target rules for targets named request
@@ -408,7 +395,6 @@ sdcIntersection.o: sdcIntersection.cc.o
 # target to build an object file
 sdcIntersection.cc.o:
 	$(MAKE) -f CMakeFiles/sdcIntersection.dir/build.make CMakeFiles/sdcIntersection.dir/sdcIntersection.cc.o
-	$(MAKE) -f CMakeFiles/sdcManager.dir/build.make CMakeFiles/sdcManager.dir/sdcIntersection.cc.o
 .PHONY : sdcIntersection.cc.o
 
 sdcIntersection.i: sdcIntersection.cc.i
@@ -418,7 +404,6 @@ sdcIntersection.i: sdcIntersection.cc.i
 # target to preprocess a source file
 sdcIntersection.cc.i:
 	$(MAKE) -f CMakeFiles/sdcIntersection.dir/build.make CMakeFiles/sdcIntersection.dir/sdcIntersection.cc.i
-	$(MAKE) -f CMakeFiles/sdcManager.dir/build.make CMakeFiles/sdcManager.dir/sdcIntersection.cc.i
 .PHONY : sdcIntersection.cc.i
 
 sdcIntersection.s: sdcIntersection.cc.s
@@ -428,7 +413,6 @@ sdcIntersection.s: sdcIntersection.cc.s
 # target to generate assembly for a file
 sdcIntersection.cc.s:
 	$(MAKE) -f CMakeFiles/sdcIntersection.dir/build.make CMakeFiles/sdcIntersection.dir/sdcIntersection.cc.s
-	$(MAKE) -f CMakeFiles/sdcManager.dir/build.make CMakeFiles/sdcManager.dir/sdcIntersection.cc.s
 .PHONY : sdcIntersection.cc.s
 
 sdcLidarRay.o: sdcLidarRay.cc.o
@@ -577,12 +561,11 @@ help:
 	@echo "... sdcWaypoint"
 	@echo "... rebuild_cache"
 	@echo "... sdcSensorData"
-	@echo "... sdcVisibleObject"
-	@echo "... sdcIntersection"
-	@echo "... sdcManager"
 	@echo "... manager"
 	@echo "... sdcLidarSensorInfo"
 	@echo "... instruction"
+	@echo "... sdcVisibleObject"
+	@echo "... sdcIntersection"
 	@echo "... request"
 	@echo "... sdcAngle"
 	@echo "... sdcLidarRay"

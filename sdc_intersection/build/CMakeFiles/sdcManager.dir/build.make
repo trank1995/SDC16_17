@@ -57,38 +57,38 @@ include CMakeFiles/sdcManager.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/sdcManager.dir/flags.make
 
-CMakeFiles/sdcManager.dir/sdcIntersection.cc.o: CMakeFiles/sdcManager.dir/flags.make
-CMakeFiles/sdcManager.dir/sdcIntersection.cc.o: ../sdcIntersection.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/sdcManager.dir/sdcIntersection.cc.o"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/sdcManager.dir/sdcIntersection.cc.o -c /Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcIntersection.cc
+CMakeFiles/sdcManager.dir/sdcManager.cc.o: CMakeFiles/sdcManager.dir/flags.make
+CMakeFiles/sdcManager.dir/sdcManager.cc.o: ../sdcManager.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/sdcManager.dir/sdcManager.cc.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/sdcManager.dir/sdcManager.cc.o -c /Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcManager.cc
 
-CMakeFiles/sdcManager.dir/sdcIntersection.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sdcManager.dir/sdcIntersection.cc.i"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcIntersection.cc > CMakeFiles/sdcManager.dir/sdcIntersection.cc.i
+CMakeFiles/sdcManager.dir/sdcManager.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sdcManager.dir/sdcManager.cc.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcManager.cc > CMakeFiles/sdcManager.dir/sdcManager.cc.i
 
-CMakeFiles/sdcManager.dir/sdcIntersection.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sdcManager.dir/sdcIntersection.cc.s"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcIntersection.cc -o CMakeFiles/sdcManager.dir/sdcIntersection.cc.s
+CMakeFiles/sdcManager.dir/sdcManager.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sdcManager.dir/sdcManager.cc.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/sdcManager.cc -o CMakeFiles/sdcManager.dir/sdcManager.cc.s
 
-CMakeFiles/sdcManager.dir/sdcIntersection.cc.o.requires:
+CMakeFiles/sdcManager.dir/sdcManager.cc.o.requires:
 
-.PHONY : CMakeFiles/sdcManager.dir/sdcIntersection.cc.o.requires
+.PHONY : CMakeFiles/sdcManager.dir/sdcManager.cc.o.requires
 
-CMakeFiles/sdcManager.dir/sdcIntersection.cc.o.provides: CMakeFiles/sdcManager.dir/sdcIntersection.cc.o.requires
-	$(MAKE) -f CMakeFiles/sdcManager.dir/build.make CMakeFiles/sdcManager.dir/sdcIntersection.cc.o.provides.build
-.PHONY : CMakeFiles/sdcManager.dir/sdcIntersection.cc.o.provides
+CMakeFiles/sdcManager.dir/sdcManager.cc.o.provides: CMakeFiles/sdcManager.dir/sdcManager.cc.o.requires
+	$(MAKE) -f CMakeFiles/sdcManager.dir/build.make CMakeFiles/sdcManager.dir/sdcManager.cc.o.provides.build
+.PHONY : CMakeFiles/sdcManager.dir/sdcManager.cc.o.provides
 
-CMakeFiles/sdcManager.dir/sdcIntersection.cc.o.provides.build: CMakeFiles/sdcManager.dir/sdcIntersection.cc.o
+CMakeFiles/sdcManager.dir/sdcManager.cc.o.provides.build: CMakeFiles/sdcManager.dir/sdcManager.cc.o
 
 
 # Object files for target sdcManager
 sdcManager_OBJECTS = \
-"CMakeFiles/sdcManager.dir/sdcIntersection.cc.o"
+"CMakeFiles/sdcManager.dir/sdcManager.cc.o"
 
 # External object files for target sdcManager
 sdcManager_EXTERNAL_OBJECTS =
 
-libsdcManager.dylib: CMakeFiles/sdcManager.dir/sdcIntersection.cc.o
+libsdcManager.dylib: CMakeFiles/sdcManager.dir/sdcManager.cc.o
 libsdcManager.dylib: CMakeFiles/sdcManager.dir/build.make
 libsdcManager.dylib: libmanager.dylib
 libsdcManager.dylib: /usr/local/Cellar/gazebo6/6.6.0/lib/libgazebo.dylib
@@ -187,7 +187,7 @@ CMakeFiles/sdcManager.dir/build: libsdcManager.dylib
 
 .PHONY : CMakeFiles/sdcManager.dir/build
 
-CMakeFiles/sdcManager.dir/requires: CMakeFiles/sdcManager.dir/sdcIntersection.cc.o.requires
+CMakeFiles/sdcManager.dir/requires: CMakeFiles/sdcManager.dir/sdcManager.cc.o.requires
 
 .PHONY : CMakeFiles/sdcManager.dir/requires
 

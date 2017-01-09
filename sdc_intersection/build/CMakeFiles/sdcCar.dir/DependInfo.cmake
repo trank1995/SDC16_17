@@ -25,7 +25,6 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles/sdcManager.dir/DependInfo.cmake"
   "/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles/manager.dir/DependInfo.cmake"
   "/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles/sdcWaypoint.dir/DependInfo.cmake"
   "/Accounts/mawbye/Desktop/SDC16_17/sdc_intersection/build/CMakeFiles/sdcSensorData.dir/DependInfo.cmake"

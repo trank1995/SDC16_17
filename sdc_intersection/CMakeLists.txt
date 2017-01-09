@@ -22,9 +22,6 @@ target_link_libraries(instruction ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES})
 add_library(manager SHARED manager.cc)
 target_link_libraries(manager instruction request ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES})
 
-add_library(sdcManager SHARED sdcIntersection.cc)
-target_link_libraries(sdcManager manager ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES})
-
 add_library(sdcAngle SHARED sdcAngle.cc)
 target_link_libraries(sdcAngle ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES})
 
@@ -47,7 +44,7 @@ add_library(sdcWaypoint SHARED sdcWaypoint.cc)
 target_link_libraries(sdcWaypoint ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES})
 
 add_library(sdcCar SHARED sdcCar.cc)
-target_link_libraries(sdcCar sdcManager manager sdcWaypoint sdcAngle  sdcSensorData sdcIntersection request instruction ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES})
+target_link_libraries(sdcCar manager sdcWaypoint sdcAngle  sdcSensorData sdcIntersection request instruction ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES})
 
 
 
